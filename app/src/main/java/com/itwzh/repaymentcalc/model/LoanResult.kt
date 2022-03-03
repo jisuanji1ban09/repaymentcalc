@@ -8,7 +8,7 @@ data class LoanResult(
     var repaymentMonth: Double = 0.0,
     var repaymentFirstMonth: Double = 0.0,
     var repaymentType: String = "",
-    var isEP :Boolean = false
+    var isEP :Boolean = false, //是否 是->等额本金 否->等额本息
 ) {
 
 }
