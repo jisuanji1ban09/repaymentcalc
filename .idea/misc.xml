@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../.gradle/caches/transforms-3/f0bf25ca00dec516a3768217516e4371/transformed/appcompat-1.2.0/res/drawable/abc_btn_default_mtrl_shape.xml" value="0.16510416666666666" />
+        <entry key="../../.gradle/caches/transforms-3/f0bf25ca00dec516a3768217516e4371/transformed/appcompat-1.2.0/res/drawable/abc_text_cursor_material.xml" value="0.29384615384615387" />
+        <entry key="app/src/main/res/drawable/btn_normal_shape.xml" value="0.16510416666666666" />
+        <entry key="app/src/main/res/drawable/check_box_button_selector.xml" value="0.29384615384615387" />
+        <entry key="app/src/main/res/drawable/edit_normal_cursor.xml" value="0.29384615384615387" />
+        <entry key="app/src/main/res/drawable/edit_normal_shape.xml" value="0.29384615384615387" />
+        <entry key="app/src/main/res/drawable/ic_check_box_normal.xml" value="0.29384615384615387" />
+        <entry key="app/src/main/res/drawable/ic_check_box_select.xml" value="0.29384615384615387" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.29384615384615387" />
+        <entry key="app/src/main/res/layout/activity_loan_calc.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_repayment_calc.xml" value="0.14895833333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

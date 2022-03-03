@@ -1,0 +1,19 @@
+<resources>
+    <string name="appName">还款计算器</string>
+    <string name="loanCalc">贷款计算器</string>
+    <string name="repaymentCalc">提前还款计算器</string>
+    <string name="repaymentType">还款方式</string>
+    <string name="equalPrincipalAndInterest">等额本息</string>
+    <string name="equalPrincipal">等额本金</string>
+    <string name="calculation">计算</string>
+    <string name="repaymentPlan">还款计划</string>
+    <string name="repaymentDateFirst">第一次还款日期</string>
+    <string name="repaymentDateFirstChoose">请选择第一次还款日期</string>
+    <string name="repaymentTotal">还款总额</string>
+    <string name="unitYuan">元</string>
+    <string name="loanTotalMoney">贷款总额</string>
+    <string name="interestTotalMoney">利息总额</string>
+    <string name="repaymentMonth">月还款额</string>
+    <string name="month">月</string>
+    <string name="loanMonths">贷款期限</string>
+</resources>
