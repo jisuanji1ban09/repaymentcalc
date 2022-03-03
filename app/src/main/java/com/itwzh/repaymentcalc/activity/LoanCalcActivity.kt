@@ -3,10 +3,16 @@ package com.itwzh.repaymentcalc.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
+import androidx.core.view.isGone
+import com.itwzh.repaymentcalc.R
 import com.itwzh.repaymentcalc.databinding.ActivityLoanCalcBinding
 import com.itwzh.repaymentcalc.utlis.ToastUtils
+import com.itwzh.repaymentcalc.utlis.dateFormat
 import com.itwzh.repaymentcalc.utlis.getLoanResult
+import com.itwzh.repaymentcalc.utlis.hideSoftKeyboard
+import com.loper7.date_time_picker.dialog.CardDatePickerDialog
 
 class LoanCalcActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -14,6 +20,7 @@ class LoanCalcActivity : AppCompatActivity(), View.OnClickListener {
     private var loanTime: Int = 0;
     private var loanRate: Double = 0.0;
     private var isEP :Boolean = false;
+    private var preClick:Long = 0;
 
     private val mBinding: ActivityLoanCalcBinding by lazy {
         ActivityLoanCalcBinding.inflate(layoutInflater)
@@ -46,9 +53,21 @@ class LoanCalcActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun calc() {
-        getCalcParam()
-        val loanResult = getLoanResult(loanAmount, loanTime, loanRate,isEP)
-        mBinding.result = loanResult
+        hideSoftKeyboard(this,mBinding.btnCalc)
+        val calcParam = getCalcParam()
+        if (calcParam){
+            val loanResult = getLoanResult(loanAmount, loanTime, loanRate,isEP)
+            if (loanResult.isEP){
+                mBinding.clRepaymentMonth.visibility = View.GONE
+                mBinding.clRepaymentMonthFirst.visibility = View.VISIBLE
+            }else{
+                mBinding.clRepaymentMonth.visibility = View.VISIBLE
+                mBinding.clRepaymentMonthFirst.visibility = View.GONE
+            }
+            mBinding.cardResult.visibility = View.VISIBLE
+            mBinding.result = loanResult
+            mBinding.btnShow.visibility = View.VISIBLE
+        }
     }
 
     fun showRepaymentPlan() {
@@ -56,10 +75,21 @@ class LoanCalcActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun showDateChoose() {
-
+        if (System.currentTimeMillis()-preClick<1000) return
+        preClick = System.currentTimeMillis();
+        CardDatePickerDialog.builder(this)
+            .setTitle("选择日期")
+            .showBackNow(false)
+            .showFocusDateInfo(false)
+            .setPickerLayout(R.layout.layoyt_date_choose)
+            .setLabelText("年","月","日")
+            .setOnChoose("确定") {millisecond->
+                mBinding.tvRepaymentDateDesc.text = dateFormat(millisecond)
+            }.setOnCancel("取消"){}.
+            build().show()
     }
 
-    fun getCalcParam() {
+    fun getCalcParam() :Boolean{
         loanAmount =
             if (TextUtils.isEmpty(mBinding.editLoadAmount.text.toString())) 0.0 else mBinding.editLoadAmount.text.toString()
                 .toDouble();
@@ -69,12 +99,21 @@ class LoanCalcActivity : AppCompatActivity(), View.OnClickListener {
         loanRate =
             if (TextUtils.isEmpty(mBinding.editLoadRate.text.toString())) 0.0 else mBinding.editLoadRate.text.toString()
                 .toDouble();
-        if (loanAmount == 0.0) return ToastUtils.toast(this, "贷款金额错误")
+        if (loanAmount == 0.0){
+            ToastUtils.toast(this, "贷款金额错误")
+            return false
+        }
 
-        if (loanTime == 0) return ToastUtils.toast(this, "贷款时长错误")
+        if (loanTime == 0){
+            ToastUtils.toast(this, "贷款时长错误")
+            return false
+        }
 
-        if (loanRate == 0.0) return ToastUtils.toast(this, "贷款利率错误")
-
+        if (loanRate == 0.0){
+            ToastUtils.toast(this, "贷款利率错误")
+            return false
+        }
+        return true
     }
 
 

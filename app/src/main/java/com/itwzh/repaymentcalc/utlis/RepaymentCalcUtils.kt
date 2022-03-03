@@ -1,8 +1,13 @@
 package com.itwzh.repaymentcalc.utlis
 
+import android.content.Context
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.itwzh.repaymentcalc.model.LoanResult
 import com.itwzh.repaymentcalc.model.LoanResultAdvance
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun getLoanResult(loanAmount: Double, loanTime: Int, loanRate: Double, isEP: Boolean): LoanResult {
     var result = LoanResult()
@@ -365,6 +370,27 @@ fun calculateEqualPrincipalApart2(
 fun format(totalMoney: Double): String? {
     val df = DecimalFormat("#.00")
     return df.format(totalMoney)
+}
+
+fun hideSoftKeyboard(context: Context, view: View){
+    val imm: InputMethodManager =
+        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    //隐藏软键盘
+    imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
+//    //显示软键盘
+//    imm.showSoftInputFromInputMethod(view.getWindowToken(), 0)
+//    //切换软键盘的显示与隐藏
+//    imm.toggleSoftInputFromWindow(view.getWindowToken(), 0, InputMethodManager.HIDE_NOT_ALWAYS)
+
+}
+
+fun dateFormat(millisecond:Long):String{
+    val now = Date(millisecond) // 创建一个Date对象，获取当前时间
+
+    // 指定格式化格式
+    // 指定格式化格式
+    val sdf = SimpleDateFormat("yyyy年MM月dd日")
+    return sdf.format(now)
 }
 
 fun getEndDate(firstDate:String,months:Int):String{

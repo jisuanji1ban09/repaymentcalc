@@ -4,6 +4,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url "https://oss.jfrog.org/libs-snapshot" }
+        repositories {
+            maven { url "https://jitpack.io" }
+        }
         jcenter() // Warning: this repository is going to shut down soon
     }
 }
