@@ -1,10 +1,11 @@
 package com.itwzh.repaymentcalc.binding.listener
 
-import android.content.Context
 import android.content.Intent
 import android.view.View
+import com.itwzh.repaymentcalc.CommonValues
 import com.itwzh.repaymentcalc.activity.LoanCalcActivity
 import com.itwzh.repaymentcalc.activity.RepaymentCalcActivity
+import com.itwzh.repaymentcalc.activity.RepaymentPlanActivity
 
 class MainListener {
 
@@ -17,6 +18,16 @@ class MainListener {
     fun toRepaymentCalc(view:View){
         val context = view.context;
         val intent:Intent = Intent(context, RepaymentCalcActivity().javaClass)
+        context.startActivity(intent)
+    }
+    
+    fun toRepaymentPlan(view: View){
+        val context = view.context;
+        val intent:Intent = Intent(context, RepaymentPlanActivity().javaClass)
+        intent.putExtra(CommonValues.amount,450000.0)
+        intent.putExtra(CommonValues.rate,5.635)
+        intent.putExtra(CommonValues.months,240)
+        intent.putExtra(CommonValues.isEP,false)
         context.startActivity(intent)
     }
 

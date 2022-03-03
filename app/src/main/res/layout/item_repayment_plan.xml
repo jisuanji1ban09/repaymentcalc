@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.itwzh.repaymentcalc.model.RepaymentPlan" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/sw_12dp"
+        android:layout_marginRight="@dimen/sw_12dp"
+        android:layout_marginTop="@dimen/sw_10dp"
+        android:layout_marginBottom="@dimen/sw_10dp"
+        app:cardCornerRadius="@dimen/sw_5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/sw_12dp"
+            android:layout_marginTop="@dimen/sw_5dp"
+            android:layout_marginRight="@dimen/sw_12dp"
+            android:layout_marginBottom="@dimen/sw_5dp">
+
+            <TextView
+                android:id="@+id/tvIssueNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sw_5dp"
+                android:text="@{model.issueNumber}"
+                android:textColor="@color/purple_700"
+                android:textStyle="bold"
+                android:textSize="@dimen/sw_16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="第一期" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sw_1dp"
+                android:layout_marginTop="@dimen/sw_5dp"
+                app:layout_constraintTop_toBottomOf="@id/tvIssueNumber" />
+
+            <TextView
+                android:id="@+id/tvRepaymentDateTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/sw_5dp"
+                android:layout_marginTop="@dimen/sw_10dp"
+                android:text="还款日期:"
+                android:textColor="@color/color_FF666666"
+                android:textSize="@dimen/sw_13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvIssueNumber" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/sw_5dp"
+                android:text="@{model.repaymentDate}"
+                android:textColor="@color/color_FF333333"
+                android:textSize="@dimen/sw_13sp"
+                app:layout_constraintStart_toEndOf="@id/tvRepaymentDateTitle"
+                app:layout_constraintBottom_toBottomOf="@id/tvRepaymentDateTitle"
+                app:layout_constraintTop_toTopOf="@id/tvRepaymentDateTitle" />
+
+
+            <TextView
+                android:id="@+id/tvRepaymentAmountTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/sw_5dp"
+                android:layout_marginTop="@dimen/sw_5dp"
+                android:text="月还款额:"
+                android:textColor="@color/color_FF666666"
+                android:textSize="@dimen/sw_13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvRepaymentDateTitle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/sw_5dp"
+                formatDoubleTotextAndUnit="@{model.repaymentAmount}"
+                android:textColor="@color/color_FF333333"
+                android:textSize="@dimen/sw_13sp"
+                app:layout_constraintStart_toEndOf="@id/tvRepaymentAmountTitle"
+                app:layout_constraintBottom_toBottomOf="@id/tvRepaymentAmountTitle"
+                app:layout_constraintTop_toTopOf="@id/tvRepaymentAmountTitle" />
+
+            <TextView
+                android:id="@+id/tvRepaymentPrincipalTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/sw_5dp"
+                android:layout_marginTop="@dimen/sw_5dp"
+                android:text="月还本金:"
+                android:textColor="@color/color_FF666666"
+                android:textSize="@dimen/sw_13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvRepaymentAmountTitle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/sw_5dp"
+                formatDoubleTotextAndUnit="@{model.repaymentPrincipal}"
+                android:textColor="@color/color_FF333333"
+                android:textSize="@dimen/sw_13sp"
+                app:layout_constraintStart_toEndOf="@id/tvRepaymentPrincipalTitle"
+                app:layout_constraintBottom_toBottomOf="@id/tvRepaymentPrincipalTitle"
+                app:layout_constraintTop_toTopOf="@id/tvRepaymentPrincipalTitle" />
+
+
+            <TextView
+                android:id="@+id/tvRepaymentInterestTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/sw_5dp"
+                android:layout_marginTop="@dimen/sw_5dp"
+                android:text="月还利息:"
+                android:textColor="@color/color_FF666666"
+                android:textSize="@dimen/sw_13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvRepaymentPrincipalTitle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/sw_5dp"
+                formatDoubleTotextAndUnit="@{model.repaymentInterest}"
+                android:textColor="@color/color_FF333333"
+                android:textSize="@dimen/sw_13sp"
+                app:layout_constraintStart_toEndOf="@id/tvRepaymentInterestTitle"
+                app:layout_constraintBottom_toBottomOf="@id/tvRepaymentInterestTitle"
+                app:layout_constraintTop_toTopOf="@id/tvRepaymentInterestTitle" />
+
+            <TextView
+                android:id="@+id/tvSurplusPrincipalTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/sw_5dp"
+                android:layout_marginTop="@dimen/sw_5dp"
+                android:layout_marginBottom="@dimen/sw_10dp"
+                android:text="剩余贷款:"
+                android:textColor="@color/color_FF666666"
+                android:textSize="@dimen/sw_13sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvRepaymentInterestTitle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/sw_5dp"
+                formatDoubleTotextAndUnit="@{model.surplusPrincipal}"
+                android:textColor="@color/color_FF333333"
+                android:textSize="@dimen/sw_13sp"
+                app:layout_constraintStart_toEndOf="@id/tvSurplusPrincipalTitle"
+                app:layout_constraintBottom_toBottomOf="@id/tvSurplusPrincipalTitle"
+                app:layout_constraintTop_toTopOf="@id/tvSurplusPrincipalTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

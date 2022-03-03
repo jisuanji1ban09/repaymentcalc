@@ -10,13 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RepaymentCalc">
         <activity
-            android:name=".activity.RepaymentCalcActivity"
-            android:label="@string/repaymentCalc"
+            android:name=".activity.RepaymentPlanActivity"
+            android:label="@string/repaymentPlan"
             android:exported="false" />
         <activity
+            android:name=".activity.RepaymentCalcActivity"
+            android:exported="false"
+            android:label="@string/repaymentCalc" />
+        <activity
             android:name=".activity.LoanCalcActivity"
-            android:label="@string/loanCalc"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/loanCalc" />
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"
