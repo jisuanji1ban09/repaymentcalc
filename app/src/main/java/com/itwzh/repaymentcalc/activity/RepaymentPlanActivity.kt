@@ -25,7 +25,7 @@ class RepaymentPlanActivity : AppCompatActivity() {
     private var months: Int = 0;
     private var rate: Double = 0.0;
     private var isEP :Boolean = false;
-    private var repaymentFirstMont :String = "2022年03月03日"
+    private var repaymentFirstMonth :String = "2022年03月03日"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,12 +36,13 @@ class RepaymentPlanActivity : AppCompatActivity() {
         months = intent.getIntExtra(CommonValues.months,0)
         rate = intent.getDoubleExtra(CommonValues.rate,0.0)
         isEP = intent.getBooleanExtra(CommonValues.isEP,false)
+        repaymentFirstMonth = intent.getStringExtra(CommonValues.date).toString()
         val c =create<List<RepaymentPlan>> {
             val repaymentPlan = getRepaymentPlan(
                 amount = amount,
                 rate = rate,
                 months = months,
-                date = repaymentFirstMont,
+                date = repaymentFirstMonth,
                 isEP = isEP
             )
             it.onNext(repaymentPlan)

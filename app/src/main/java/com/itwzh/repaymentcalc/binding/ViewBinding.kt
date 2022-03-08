@@ -27,7 +27,7 @@ fun formatDoubleTotextAndUnit(textView: TextView, number: Double) {
 @SuppressLint("SetTextI18n")
 @BindingAdapter("formatDoubleTotextAndUnit")
 fun formatDoubleTotextAndUnit(textView: TextView, number: Int) {
-    textView.text = number.toString()+ unitYuan
+    textView.text = format(number.toDouble()).toString()+ unitYuan
 }
 
 @BindingAdapter("formatDoubleTotext")

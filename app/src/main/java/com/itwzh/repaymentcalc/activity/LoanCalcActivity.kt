@@ -1,11 +1,13 @@
 package com.itwzh.repaymentcalc.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import androidx.core.view.isGone
+import com.itwzh.repaymentcalc.CommonValues
 import com.itwzh.repaymentcalc.R
 import com.itwzh.repaymentcalc.databinding.ActivityLoanCalcBinding
 import com.itwzh.repaymentcalc.utlis.ToastUtils
@@ -71,7 +73,22 @@ class LoanCalcActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun showRepaymentPlan() {
-
+        hideSoftKeyboard(this,mBinding.btnCalc)
+        val calcParam = getCalcParam()
+        val date = mBinding.tvRepaymentDateDesc.text.toString();
+        if (calcParam){
+            if (!TextUtils.isEmpty(date)){
+                val intent: Intent = Intent(this, RepaymentPlanActivity().javaClass)
+                intent.putExtra(CommonValues.amount,loanAmount)
+                intent.putExtra(CommonValues.rate,loanRate)
+                intent.putExtra(CommonValues.months,loanTime)
+                intent.putExtra(CommonValues.isEP,isEP)
+                intent.putExtra(CommonValues.date,date)
+                startActivity(intent)
+            }else{
+                ToastUtils.toast(this, "请选择第一次还款日期")
+            }
+        }
     }
 
     fun showDateChoose() {

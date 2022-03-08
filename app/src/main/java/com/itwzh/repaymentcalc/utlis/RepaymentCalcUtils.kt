@@ -15,7 +15,7 @@ fun getLoanResult(loanAmount: Double, loanTime: Int, loanRate: Double, isEP: Boo
     result.loanTimes = loanTime
     result.isEP = isEP
     if (isEP) result.repaymentType = "等额本金" else result.repaymentType = "等额本息"
-    if (isEP) calculateEqualPrincipalAndInterest(
+    if (!isEP) calculateEqualPrincipalAndInterest(
         loanAmount,
         loanTime,
         loanRate,
@@ -368,6 +368,9 @@ fun calculateEqualPrincipalApart2(
  * @author luffy
  */
 fun format(totalMoney: Double): String? {
+    if (totalMoney == 0.0){
+        return "0.00"
+    }
     val df = DecimalFormat("#.00")
     return df.format(totalMoney)
 }

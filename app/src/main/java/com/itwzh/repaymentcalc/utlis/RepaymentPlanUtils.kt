@@ -55,7 +55,7 @@ fun getAmountEP(amount: Double, months: Int, rate: Double, issue: Int): Map<Stri
     var map: HashMap<String, Double> = HashMap()
     var repaymentPrincipal = amount / months
     var surplusPrincipal = amount - (repaymentPrincipal * issue)
-    var repaymentInterest = (surplusPrincipal - repaymentPrincipal) * rate
+    var repaymentInterest = (surplusPrincipal + repaymentPrincipal) * rate
     map.put("repaymentAmount", repaymentPrincipal + repaymentInterest)
     map.put("repaymentPrincipal", repaymentPrincipal)
     map.put("repaymentInterest", repaymentInterest)
@@ -77,7 +77,7 @@ fun getAmountEPAI(
         ) / (Math.pow(1 + rate, months.toDouble()) - 1) //每月还款金额
     var repaymentInterest = preAmount * rate //利息
     var repaymentPrincipal = repaymentAmount - repaymentInterest
-    var surplusPrincipal = preAmount - repaymentInterest //剩余本金
+    var surplusPrincipal = preAmount - repaymentPrincipal //剩余本金
     map.put("repaymentAmount", repaymentPrincipal + repaymentInterest)
     map.put("repaymentPrincipal", repaymentPrincipal)
     map.put("repaymentInterest", repaymentInterest)

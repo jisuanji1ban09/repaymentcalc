@@ -16,4 +16,5 @@
     <string name="repaymentMonth">月还款额</string>
     <string name="month">月</string>
     <string name="loanMonths">贷款期限</string>
+    <string name="repaymentMonthFirst">首月还款</string>
 </resources>
