@@ -17,4 +17,7 @@
     <string name="month">月</string>
     <string name="loanMonths">贷款期限</string>
     <string name="repaymentMonthFirst">首月还款</string>
+    <string name="advanceRepaymentType">还款约定</string>
+    <string name="repaymentAdvanceDate">约定提前还款日期</string>
+    <string name="repaymentAdvanceDateChoose">请选择提前约定还款日期</string>
 </resources>
