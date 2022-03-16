@@ -17,7 +17,7 @@
             android:exported="false"
             android:label="@string/repaymentPlan" />
         <activity
-            android:name=".activity.RepaymentCalcActivity"
+            android:name=".activity.AdvanceRepaymentCalcActivity"
             android:exported="false"
             android:label="@string/repaymentCalc" />
         <activity

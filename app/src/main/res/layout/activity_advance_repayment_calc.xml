@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            tools:context=".activity.RepaymentCalcActivity">
+            tools:context=".activity.AdvanceRepaymentCalcActivity">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -394,6 +394,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardResult"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/sw_12dp"
@@ -744,11 +745,13 @@
 
 
                     <View
+                        android:id="@+id/lineLoanTimesNew"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/sw_1dp"
                         android:background="@color/color_FFD5D5D5" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clLoanTimesNew"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/sw_40dp">
 
@@ -830,11 +833,13 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
+                        android:id="@+id/lineLastDateNew"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/sw_1dp"
                         android:background="@color/color_FFD5D5D5" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clLastDateNew"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/sw_40dp">
 

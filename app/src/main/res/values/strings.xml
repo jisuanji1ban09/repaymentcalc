@@ -36,7 +36,7 @@
     <string name="repaymentMonthOld">原月还款额</string>
     <string name="repaymentMonthNew">新月还款额</string>
     <string name="repaymentMonthFirstOld">原首月还款</string>
-    <string name="repaymentMonthFirstNew">新首月还款</string>
+    <string name="repaymentMonthFirstNew">下月还款</string>
     <string name="advanceTime">缩短还款期限</string>
     <string name="savePrincipal">期限不变</string>
 </resources>

@@ -277,6 +277,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/sw_12dp"
                 android:layout_marginTop="@dimen/sw_20dp"
+                android:layout_marginBottom="@dimen/sw_20dp"
                 android:layout_marginRight="@dimen/sw_12dp"
                 android:visibility="gone">
 

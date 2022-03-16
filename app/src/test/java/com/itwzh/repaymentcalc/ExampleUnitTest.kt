@@ -1,8 +1,10 @@
 package com.itwzh.repaymentcalc
 
+import com.itwzh.repaymentcalc.utlis.*
 import org.junit.Test
 
 import org.junit.Assert.*
+import java.util.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -19,8 +21,16 @@ class ExampleUnitTest {
         val Q = 384236.62
         val i = Math.log(R/(R-Q*p))/Math.log(1+p)
         val j = Math.ceil(i).toInt()
-        println("i is $i")
-        println("j is $j")
+//        println("i is $i")
+//        println("j is $j")
+//        val time = getNextMonth(1647416412503L)
+//        println(time.toString())
+//        println(dateFormat(time))
+        val  time = 1649952000000L;
+        println(dateFormat(time))
+        println(advanceDateFormat(time,"2021年02月01日"))
+//        println(dateFormat(getMinMonthByChoose()))
+//        println(dateFormat(getMaxMonthByChoose()))
     }
 }
 

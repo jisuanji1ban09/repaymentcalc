@@ -14,7 +14,7 @@ data class LoanResultAdvance(
     var advanceRepaymentFirstMonth: Double = 0.0, //还款后等额本金第一月还款
     var repaymentType: String = "",//还款方式
     var isEP :Boolean = false, //是否 是->等额本金 否->等额本息
-    var isReduceTime:Boolean = false,//是否缩短还款时间 是->缩短时间 否->减少还款金额
+    var isAdvance:Boolean = false,//是否缩短还款时间 是->缩短时间 否->减少还款金额
     var advanceType:String = "", //提前还贷方式
     var reduceMonths:Int = 0,//缩短的月份
     var endDate:String = "",//最后一期还款时间
