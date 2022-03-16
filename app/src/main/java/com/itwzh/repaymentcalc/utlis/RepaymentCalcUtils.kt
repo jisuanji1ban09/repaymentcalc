@@ -9,11 +9,12 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun getLoanResult(loanAmount: Double, loanTime: Int, loanRate: Double, isEP: Boolean): LoanResult {
+fun getLoanResult(loanAmount: Double, loanTime: Int, loanRate: Double, isEP: Boolean,date:String): LoanResult {
     var result = LoanResult()
     result.loanAmount = loanAmount
     result.loanTimes = loanTime
     result.isEP = isEP
+    result.repaymentLastDate = getRepaymentDate(date,loanTime)
     if (isEP) result.repaymentType = "等额本金" else result.repaymentType = "等额本息"
     if (!isEP) calculateEqualPrincipalAndInterest(
         loanAmount,
@@ -368,10 +369,10 @@ fun calculateEqualPrincipalApart2(
  * @author luffy
  */
 fun format(totalMoney: Double): String? {
-    if (totalMoney == 0.0){
+    val df = DecimalFormat("#.00")
+    if (df.format(totalMoney).equals(".00")){
         return "0.00"
     }
-    val df = DecimalFormat("#.00")
     return df.format(totalMoney)
 }
 

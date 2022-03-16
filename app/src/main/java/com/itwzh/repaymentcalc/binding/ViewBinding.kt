@@ -12,25 +12,25 @@ import com.itwzh.repaymentcalc.utlis.format
  * author:王忠辉
  */
 const val unitYuan = "元"
-@BindingAdapter("formatDoubleTotext")
-fun formatDoubleTotext(textView: TextView, number: Double) {
+@BindingAdapter("formatDoubleToText")
+fun formatDoubleToText(textView: TextView, number: Double) {
     textView.text = format(number)
 }
 
 @SuppressLint("SetTextI18n")
-@BindingAdapter("formatDoubleTotextAndUnit")
-fun formatDoubleTotextAndUnit(textView: TextView, number: Double) {
+@BindingAdapter("formatDoubleToTextAndUnit")
+fun formatDoubleToTextAndUnit(textView: TextView, number: Double) {
     textView.text = format(number)+ unitYuan
 }
 
 
 @SuppressLint("SetTextI18n")
-@BindingAdapter("formatDoubleTotextAndUnit")
-fun formatDoubleTotextAndUnit(textView: TextView, number: Int) {
+@BindingAdapter("formatIntToTextAndUnit")
+fun formatIntToTextAndUnit(textView: TextView, number: Int) {
     textView.text = format(number.toDouble()).toString()+ unitYuan
 }
 
-@BindingAdapter("formatDoubleTotext")
-fun formatDoubleTotext(textView: TextView, number: Int) {
+@BindingAdapter("formatIntToText")
+fun formatIntToText(textView: TextView, number: Int) {
     textView.text = number.toString()
 }

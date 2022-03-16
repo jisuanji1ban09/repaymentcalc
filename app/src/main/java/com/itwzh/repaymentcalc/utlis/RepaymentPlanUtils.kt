@@ -44,8 +44,8 @@ fun getRepaymentPlan(
 
 fun getRepaymentDate(date: String, issue: Int): String {
     var year = date.substring(0, 4).toInt()
-    var month = date.substring(6, 7).toInt()
-    var day = date.substring(9, 10).toInt()
+    var month = date.substring(5, 7).toInt()
+    val day = date.substring(8, 10).toInt()
     year += (month + issue - 1) / 12
     month = (month + (issue - 1)) % 12
     return "${year}年${if (month < 10) "0" + month else month.toString()}月${if (day < 10) "0" + day else day.toString()}日"

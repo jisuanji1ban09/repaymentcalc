@@ -57,18 +57,23 @@ class LoanCalcActivity : AppCompatActivity(), View.OnClickListener {
     fun calc() {
         hideSoftKeyboard(this,mBinding.btnCalc)
         val calcParam = getCalcParam()
+        val date = mBinding.tvRepaymentDateDesc.text.toString();
         if (calcParam){
-            val loanResult = getLoanResult(loanAmount, loanTime, loanRate,isEP)
-            if (loanResult.isEP){
-                mBinding.clRepaymentMonth.visibility = View.GONE
-                mBinding.clRepaymentMonthFirst.visibility = View.VISIBLE
+            if(!TextUtils.isEmpty(date)){
+                val loanResult = getLoanResult(loanAmount, loanTime, loanRate,isEP,date)
+                if (loanResult.isEP){
+                    mBinding.clRepaymentMonth.visibility = View.GONE
+                    mBinding.clRepaymentMonthFirst.visibility = View.VISIBLE
+                }else{
+                    mBinding.clRepaymentMonth.visibility = View.VISIBLE
+                    mBinding.clRepaymentMonthFirst.visibility = View.GONE
+                }
+                mBinding.cardResult.visibility = View.VISIBLE
+                mBinding.result = loanResult
+                mBinding.btnShow.visibility = View.VISIBLE
             }else{
-                mBinding.clRepaymentMonth.visibility = View.VISIBLE
-                mBinding.clRepaymentMonthFirst.visibility = View.GONE
+                ToastUtils.toast(this, "请选择第一次还款日期")
             }
-            mBinding.cardResult.visibility = View.VISIBLE
-            mBinding.result = loanResult
-            mBinding.btnShow.visibility = View.VISIBLE
         }
     }
 

@@ -10,9 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RepaymentCalc">
         <activity
-            android:name=".activity.RepaymentPlanActivity"
-            android:label="@string/repaymentPlan"
+            android:name=".activity.AdvanceRepaymentPlanActivity"
             android:exported="false" />
+        <activity
+            android:name=".activity.RepaymentPlanActivity"
+            android:exported="false"
+            android:label="@string/repaymentPlan" />
         <activity
             android:name=".activity.RepaymentCalcActivity"
             android:exported="false"

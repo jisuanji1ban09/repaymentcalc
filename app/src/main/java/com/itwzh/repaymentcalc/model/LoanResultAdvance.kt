@@ -22,8 +22,9 @@ data class LoanResultAdvance(
     var repaidTotal :Double = 0.0,//已还总额
     var repaidAmount:Double = 0.0,//已还本金
     var repaidInterest:Double = 0.0,//已还利息
-    var advanceTotalMoney:Double = 0.0 //提前还款总额
-
+    var advanceTotalMoney:Double = 0.0, //提前还款总额
+    var repaymentLastDate:String = "",//原最后还款日期
+    var advanceRepaymentLastDate :String = "" //新最后还款日期
 ) {
 
 }

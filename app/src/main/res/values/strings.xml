@@ -20,4 +20,23 @@
     <string name="advanceRepaymentType">还款约定</string>
     <string name="repaymentAdvanceDate">约定提前还款日期</string>
     <string name="repaymentAdvanceDateChoose">请选择提前约定还款日期</string>
+    <string name="repaymentTotalOld">原还款总额</string>
+    <string name="repaymentTotalNew">新还款总额</string>
+    <string name="loanMonthsOld">原贷款期限</string>
+    <string name="repaymentLastDate">最后还款日期</string>
+    <string name="loanMonthsNew">新还款期限</string>
+    <string name="repaymentLastDateOld">原最后还款日期</string>
+    <string name="repaymentLastDateNew">新最后还款日期</string>
+    <string name="interestTotalMoneyOld">原利息总额</string>
+    <string name="interestTotalMoneyNew">新利息总额</string>
+    <string name="repaidAmount">已还本金</string>
+    <string name="repaidTotal">已还总额</string>
+    <string name="repaidInterest">已还利息</string>
+    <string name="saveInterest">节省利息</string>
+    <string name="repaymentMonthOld">原月还款额</string>
+    <string name="repaymentMonthNew">新月还款额</string>
+    <string name="repaymentMonthFirstOld">原首月还款</string>
+    <string name="repaymentMonthFirstNew">新首月还款</string>
+    <string name="advanceTime">缩短还款期限</string>
+    <string name="savePrincipal">期限不变</string>
 </resources>
