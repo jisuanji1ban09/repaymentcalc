@@ -43,4 +43,11 @@
     <string name="jumpTop">跳转到顶部</string>
     <string name="jumpBottom">跳转到底部</string>
     <string name="jumpIssue">期数跳转</string>
+    <string name="aheadInterest">提前还款利息</string>
+    <string name="aheadRepaymentAmount">提前还款总额</string>
+    <string name="surplusAmount">剩余本金</string>
+    <string name="haveInterestAmount">已还利息</string>
+    <string name="haveRepaymentAmount">已还本金</string>
+    <string name="haveTotalAmount">已还总额</string>
+    <string name="repaymentNormalMonth">已还期数</string>
 </resources>

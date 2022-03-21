@@ -16,7 +16,7 @@ fun getLoanResultFullAmount(
     result.isEP = isEP
     result.repaymentLastDate = getRepaymentDate(firstDate, months)
     //已还期数
-    val repaymentNormalMonth = getRepaymentNormalMonth(firstDate, advanceDate)
+    val repaymentNormalMonth = getRepaymentSubMonth(firstDate, advanceDate)
     result.repaymentNormalMonth = repaymentNormalMonth;
     if (isEP) result.repaymentType = "等额本金" else result.repaymentType = "等额本息"
     if (isEP) {
@@ -99,4 +99,13 @@ fun calcEPLoan(
     val surplusAmount = principal - result.haveRepaymentAmount
 
 
+}
+
+
+fun getRepaymentSubMonth(first: String, advance: String): Int {
+    var yearFirst = first.substring(0, 4).toInt()
+    var monthFirst = first.substring(6, 7).toInt()
+    var yearAd = advance.substring(0, 4).toInt()
+    var monthAd = advance.substring(6, 7).toInt()
+    return (yearAd - yearFirst) * 12 + (monthAd - monthFirst)
 }

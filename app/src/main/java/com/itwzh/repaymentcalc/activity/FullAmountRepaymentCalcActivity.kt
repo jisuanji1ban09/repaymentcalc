@@ -48,12 +48,6 @@ class FullAmountRepaymentCalcActivity : AppCompatActivity(), View.OnClickListene
     }
 
     private fun showAdvanceDateChoose() {
-        this.isEP = isEP
-        mBinding.checkboxEPAI.isChecked = !isEP
-        mBinding.checkboxEP.isChecked = isEP
-    }
-
-    private fun showDateChoose() {
         if (System.currentTimeMillis() - preClick < 1000) return
         preClick = System.currentTimeMillis()
         if (firstRepayment == 0L) {
@@ -76,7 +70,7 @@ class FullAmountRepaymentCalcActivity : AppCompatActivity(), View.OnClickListene
             }.setOnCancel("取消") {}.build().show()
     }
 
-    private fun resetCheckBox(isEp: Boolean) {
+    private fun showDateChoose() {
         if (System.currentTimeMillis() - preClick < 1000) return
         preClick = System.currentTimeMillis()
         CardDatePickerDialog.builder(this)
@@ -94,6 +88,12 @@ class FullAmountRepaymentCalcActivity : AppCompatActivity(), View.OnClickListene
             }.setOnCancel("取消") {}.build().show()
     }
 
+    private fun resetCheckBox(isEp: Boolean) {
+        this.isEP = isEP
+        mBinding.checkboxEPAI.isChecked = !isEP
+        mBinding.checkboxEP.isChecked = isEP
+    }
+
     fun calc() {
         hideSoftKeyboard(this, mBinding.btnCalc)
         if (getCalcParam()) {
@@ -105,7 +105,16 @@ class FullAmountRepaymentCalcActivity : AppCompatActivity(), View.OnClickListene
                 firstDate = firstDate,
                 advanceDate = advanceDate
             )
+            if (loanResult.isEP) {
+                mBinding.clRepaymentMonth.visibility = View.GONE
+                mBinding.clRepaymentMonthFirst.visibility = View.VISIBLE
+            } else {
+                mBinding.clRepaymentMonth.visibility = View.VISIBLE
+                mBinding.clRepaymentMonthFirst.visibility = View.GONE
+            }
+            mBinding.cardResult.visibility = View.VISIBLE
             mBinding.result = loanResult
+
         }
     }
 

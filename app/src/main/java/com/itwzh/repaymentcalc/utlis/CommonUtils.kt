@@ -79,8 +79,8 @@ fun getNextMonth(millisecond:Long):Long{
         val firstDay = dateFormat(millisecond).substring(8, 10).toInt()
         if (nowDay>firstDay){
             val nextDay = getEndDate(dateFormat(System.currentTimeMillis()), 1)
-            val endDay = Date(nextDay.substring(0,4).toInt(),nextDay.substring(5,7).toInt(),1)
-            return dateParse(nextDay)
+            val endDay = nextDay.substring(0,8)+"01日"
+            return dateParse(endDay)
         }else{
             return System.currentTimeMillis()
         }

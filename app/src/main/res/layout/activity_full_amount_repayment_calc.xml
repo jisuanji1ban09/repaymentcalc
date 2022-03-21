@@ -292,6 +292,7 @@
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
+                android:visibility="gone"
                 android:id="@+id/cardResult"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -625,7 +626,395 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_1dp"
+                        android:layout_marginTop="@dimen/sw_40dp"
+                        android:background="@color/color_FFD5D5D5" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_40dp">
+
+                        <TextView
+                            android:id="@+id/tvRepaymentMonths"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/repaymentNormalMonth"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:id="@+id/tvRepaymentMonthsUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/month"
+                            android:textColor="@color/color_FF666666"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            formatIntToText="@{result.repaymentNormalMonth}"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/sw_5dp"
+                            android:layout_marginRight="@dimen/sw_5dp"
+                            android:gravity="right"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/tvRepaymentMonthsUnit"
+                            app:layout_constraintStart_toEndOf="@id/tvRepaymentMonths"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_1dp"
+                        android:background="@color/color_FFD5D5D5" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_40dp">
+
+                        <TextView
+                            android:id="@+id/tvHaveTotalAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/haveTotalAmount"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:id="@+id/tvHaveTotalAmountUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/unitYuan"
+                            android:textColor="@color/color_FF666666"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            formatDoubleToText="@{result.haveTotalAmount}"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/sw_5dp"
+                            android:layout_marginRight="@dimen/sw_5dp"
+                            android:gravity="right"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/tvHaveTotalAmountUnit"
+                            app:layout_constraintStart_toEndOf="@id/tvHaveTotalAmount"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_1dp"
+                        android:background="@color/color_FFD5D5D5" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_40dp">
+
+                        <TextView
+                            android:id="@+id/tvHaveRepaymentAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/haveRepaymentAmount"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:id="@+id/tvHaveRepaymentAmountUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/unitYuan"
+                            android:textColor="@color/color_FF666666"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            formatDoubleToText="@{result.haveRepaymentAmount}"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/sw_5dp"
+                            android:layout_marginRight="@dimen/sw_5dp"
+                            android:gravity="right"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/tvHaveRepaymentAmountUnit"
+                            app:layout_constraintStart_toEndOf="@id/tvHaveRepaymentAmount"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_1dp"
+                        android:background="@color/color_FFD5D5D5" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_40dp">
+
+                        <TextView
+                            android:id="@+id/tvHaveInterestAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/haveInterestAmount"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:id="@+id/tvHaveInterestAmountUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/unitYuan"
+                            android:textColor="@color/color_FF666666"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            formatDoubleToText="@{result.haveInterestAmount}"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/sw_5dp"
+                            android:layout_marginRight="@dimen/sw_5dp"
+                            android:gravity="right"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/tvHaveInterestAmountUnit"
+                            app:layout_constraintStart_toEndOf="@id/tvHaveInterestAmount"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_1dp"
+                        android:background="@color/color_FFD5D5D5" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_40dp">
+
+                        <TextView
+                            android:id="@+id/tvSurplusAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/surplusAmount"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:id="@+id/tvSurplusAmountUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/unitYuan"
+                            android:textColor="@color/color_FF666666"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            formatDoubleToText="@{result.surplusAmount}"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/sw_5dp"
+                            android:layout_marginRight="@dimen/sw_5dp"
+                            android:gravity="right"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/tvSurplusAmountUnit"
+                            app:layout_constraintStart_toEndOf="@id/tvSurplusAmount"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_1dp"
+                        android:background="@color/color_FFD5D5D5" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_40dp">
+
+                        <TextView
+                            android:id="@+id/tvAheadRepaymentAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/aheadRepaymentAmount"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:id="@+id/tvAheadRepaymentAmountUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/unitYuan"
+                            android:textColor="@color/color_FF666666"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            formatDoubleToText="@{result.aheadRepaymentAmount}"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/sw_5dp"
+                            android:layout_marginRight="@dimen/sw_5dp"
+                            android:gravity="right"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/tvAheadRepaymentAmountUnit"
+                            app:layout_constraintStart_toEndOf="@id/tvAheadRepaymentAmount"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_1dp"
+                        android:background="@color/color_FFD5D5D5" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_40dp">
+
+                        <TextView
+                            android:id="@+id/tvAheadInterest"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/aheadInterest"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:id="@+id/tvAheadInterestUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/unitYuan"
+                            android:textColor="@color/color_FF666666"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            formatDoubleToText="@{result.aheadInterest}"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/sw_5dp"
+                            android:layout_marginRight="@dimen/sw_5dp"
+                            android:gravity="right"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/tvAheadInterestUnit"
+                            app:layout_constraintStart_toEndOf="@id/tvAheadInterest"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_1dp"
+                        android:background="@color/color_FFD5D5D5" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_40dp">
+
+                        <TextView
+                            android:id="@+id/tvSaveInterest"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/saveInterest"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:id="@+id/tvSaveInterestUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/unitYuan"
+                            android:textColor="@color/color_FF666666"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            formatDoubleToText="@{result.saveInterest}"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/sw_5dp"
+                            android:layout_marginRight="@dimen/sw_5dp"
+                            android:gravity="right"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/tvSaveInterestUnit"
+                            app:layout_constraintStart_toEndOf="@id/tvSaveInterest"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </LinearLayout>
+
+
 
             </androidx.cardview.widget.CardView>
 
