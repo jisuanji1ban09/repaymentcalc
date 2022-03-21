@@ -41,6 +41,18 @@
             app:layout_constraintTop_toBottomOf="@id/btnLoanCalc" />
 
         <Button
+            android:id="@+id/btnFullAmountCalc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/sw_5dp"
+            android:layout_marginTop="@dimen/sw_5dp"
+            android:layout_marginRight="@dimen/sw_5dp"
+            android:onClick="@{(view)->listener.toFullRepaymentCalc(view)}"
+            android:text="全额还款"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnRepaymentCalc" />
+        <Button
+            android:id="@+id/repaymentPlan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/sw_5dp"
@@ -49,7 +61,7 @@
             android:onClick="@{(view)->listener.toRepaymentPlan(view)}"
             android:text="还款计划"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnRepaymentCalc" />
+            app:layout_constraintTop_toBottomOf="@id/btnFullAmountCalc" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

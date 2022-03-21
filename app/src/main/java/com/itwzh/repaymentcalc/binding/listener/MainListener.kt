@@ -6,6 +6,7 @@ import com.itwzh.repaymentcalc.CommonValues
 import com.itwzh.repaymentcalc.activity.AdvanceRepaymentPlanActivity
 import com.itwzh.repaymentcalc.activity.LoanCalcActivity
 import com.itwzh.repaymentcalc.activity.AdvanceRepaymentCalcActivity
+import com.itwzh.repaymentcalc.activity.FullAmountRepaymentCalcActivity
 
 class MainListener {
 
@@ -18,6 +19,12 @@ class MainListener {
     fun toRepaymentCalc(view:View){
         val context = view.context;
         val intent:Intent = Intent(context, AdvanceRepaymentCalcActivity().javaClass)
+        context.startActivity(intent)
+    }
+
+    fun toFullRepaymentCalc(view:View){
+        val context = view.context;
+        val intent:Intent = Intent(context, FullAmountRepaymentCalcActivity().javaClass)
         context.startActivity(intent)
     }
     
