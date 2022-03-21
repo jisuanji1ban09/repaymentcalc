@@ -27,8 +27,9 @@ class ExampleUnitTest {
 //        println(time.toString())
 //        println(dateFormat(time))
         val  time = 1649952000000L;
-        println(dateFormat(time))
-        println(advanceDateFormat(time,"2021年02月01日"))
+//        println(dateFormat(time))
+//        println(advanceDateFormat(time,"2021年02月01日"))
+        println(dateFormat(getNextMonth(dateParse("2022年03月19日"))))
 //        println(dateFormat(getMinMonthByChoose()))
 //        println(dateFormat(getMaxMonthByChoose()))
     }

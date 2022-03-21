@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/sw_40dp"
+        android:paddingBottom="@dimen/sw_40dp">
+
+
+        <LinearLayout
+            android:id="@+id/llTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/sw_60dp"
+            android:paddingTop="@dimen/sw_10dp"
+            android:paddingRight="@dimen/sw_60dp"
+            android:paddingBottom="@dimen/sw_10dp">
+
+            <ImageView
+                android:layout_width="@dimen/sw_18dp"
+                android:layout_height="@dimen/sw_18dp"
+                android:src="@drawable/ic_jump_top" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/sw_8dp"
+                android:text="@string/jumpTop"
+                android:textColor="@color/color_FF444444"
+                android:textSize="@dimen/sw_13sp" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/llBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/sw_60dp"
+            android:paddingTop="@dimen/sw_10dp"
+            android:paddingRight="@dimen/sw_60dp"
+            android:paddingBottom="@dimen/sw_10dp">
+
+            <ImageView
+                android:layout_width="@dimen/sw_18dp"
+                android:layout_height="@dimen/sw_18dp"
+                android:src="@drawable/ic_jump_bottom" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/sw_8dp"
+                android:text="@string/jumpBottom"
+                android:textColor="@color/color_FF444444"
+                android:textSize="@dimen/sw_13sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llIssue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/sw_60dp"
+            android:paddingTop="@dimen/sw_10dp"
+            android:paddingRight="@dimen/sw_60dp"
+            android:paddingBottom="@dimen/sw_10dp">
+
+            <ImageView
+                android:layout_width="@dimen/sw_18dp"
+                android:layout_height="@dimen/sw_18dp"
+                android:src="@drawable/ic_jump_issue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/sw_8dp"
+                android:text="  期数跳转  "
+                android:textColor="@color/color_FF444444"
+                android:textSize="@dimen/sw_13sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

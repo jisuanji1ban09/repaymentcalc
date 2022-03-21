@@ -17,7 +17,6 @@ data class LoanResultAdvance(
     var isAdvance:Boolean = false,//是否缩短还款时间 是->缩短时间 否->减少还款金额
     var advanceType:String = "", //提前还贷方式
     var reduceMonths:Int = 0,//缩短的月份
-    var endDate:String = "",//最后一期还款时间
     var reduceInterest:Double = 0.0,//节省利息
     var repaidTotal :Double = 0.0,//已还总额
     var repaidAmount:Double = 0.0,//已还本金

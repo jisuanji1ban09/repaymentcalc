@@ -39,4 +39,8 @@
     <string name="repaymentMonthFirstNew">下月还款</string>
     <string name="advanceTime">缩短还款期限</string>
     <string name="savePrincipal">期限不变</string>
+    <string name="jump">跳转</string>
+    <string name="jumpTop">跳转到顶部</string>
+    <string name="jumpBottom">跳转到底部</string>
+    <string name="jumpIssue">期数跳转</string>
 </resources>

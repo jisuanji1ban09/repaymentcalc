@@ -49,5 +49,12 @@
         <item name="android:background">?attr/controlBackground</item>
     </style>
 
+    <style name="common_progress_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
 
+
+    <color name="transparent">#00000000</color>
 </resources>

@@ -18,5 +18,18 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fb"
+            android:layout_width="@dimen/sw_48dp"
+            android:layout_height="@dimen/sw_48dp"
+            android:layout_marginEnd="@dimen/sw_16dp"
+            android:layout_marginBottom="@dimen/sw_40dp"
+            android:backgroundTint="@color/teal_700"
+            android:elevation="@dimen/sw_4dp"
+            android:src="@drawable/ic_add"
+            app:fabCustomSize="@dimen/sw_48dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
