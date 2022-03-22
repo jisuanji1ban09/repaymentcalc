@@ -144,42 +144,30 @@ class AdvanceRepaymentCalcActivity : AppCompatActivity(), View.OnClickListener {
             )
             if (loanResult.isAdvance) {
                 mBinding.tvLoanTimes.text = "原贷款期限"
-                mBinding.lineLoanTimesNew.visibility = View.VISIBLE
                 mBinding.clLoanTimesNew.visibility = View.VISIBLE
                 mBinding.tvLastDate.text = "原最后还款日期"
-                mBinding.lineLastDateNew.visibility = View.VISIBLE
-                mBinding.clLastDateNew.visibility = View.VISIBLE
             } else {
                 mBinding.tvLoanTimes.text = "贷款期限"
-                mBinding.lineLoanTimesNew.visibility = View.GONE
                 mBinding.clLoanTimesNew.visibility = View.GONE
                 mBinding.tvLastDate.text = "最后还款日期"
-                mBinding.lineLastDateNew.visibility = View.GONE
-                mBinding.clLastDateNew.visibility = View.GONE
 
             }
             if (loanResult.isEP) {
                 //月还款额
                 mBinding.clRepaymentMonth.visibility = View.GONE
-                mBinding.lineRepaymentMonthNew.visibility = View.GONE
                 mBinding.clRepaymentMonthNew.visibility = View.GONE
-                mBinding.lineRepaymentMonthFirst.visibility = View.GONE
 
                 //首月还款
                 mBinding.clRepaymentMonthFirst.visibility = View.VISIBLE
-                mBinding.lineRepaymentMonthFirstNew.visibility = View.VISIBLE
                 mBinding.clRepaymentMonthFirstNew.visibility = View.VISIBLE
 
             } else {
                 //月还款额
                 mBinding.clRepaymentMonth.visibility = View.VISIBLE
-                mBinding.lineRepaymentMonthNew.visibility = View.VISIBLE
                 mBinding.clRepaymentMonthNew.visibility = View.VISIBLE
 
                 //首月还款
-                mBinding.lineRepaymentMonthFirst.visibility = View.GONE
                 mBinding.clRepaymentMonthFirst.visibility = View.GONE
-                mBinding.lineRepaymentMonthFirstNew.visibility = View.GONE
                 mBinding.clRepaymentMonthFirstNew.visibility = View.GONE
             }
             mBinding.cardResult.visibility = View.VISIBLE

@@ -19,30 +19,62 @@ fun getLoanResultAdvance(
     result.repaymentLastDate = getEndDate(firstDate, months)
     if (isEP) result.repaymentType = "等额本金" else result.repaymentType = "等额本息"
     if (isAdvance) result.advanceType = "缩短还款时间" else result.advanceType = "减少每月金额"
-    val repaymentMonths = getRepaymentNormalMonth(firstDate, advanceDate);
+    val repaymentMonths = getRepaymentSubMonth(firstDate, advanceDate);
+    result.repaymentNormalMonth = repaymentMonths
+    result.advanceMonths = months - repaymentMonths - 1
     if (isAdvance) {
         //缩短还款时间
         if (isEP) {
             //等额本金
-            calculateEqualPrincipalApart(amount,months,advanceAmount,repaymentMonths-1,rate,firstDate,result)
+            calculateEqualPrincipalApart(
+                amount,
+                months,
+                advanceAmount,
+                repaymentMonths - 1,
+                rate,
+                firstDate,
+                result
+            )
         } else {
             //等额本息
-            calculateEqualPrincipalAndInterestApart(amount,months,advanceAmount,repaymentMonths-1,rate,firstDate,result)
+            calculateEqualPrincipalAndInterestApart(
+                amount,
+                months,
+                advanceAmount,
+                repaymentMonths - 1,
+                rate,
+                firstDate,
+                result
+            )
         }
     } else {
         //减少每月金额
         if (isEP) {
             //等额本金
-            calculateEqualPrincipalAndInterestApart2(amount,months,advanceAmount,repaymentMonths-1,rate,firstDate,result)
+            calculateEqualPrincipalAndInterestApart2(
+                amount,
+                months,
+                advanceAmount,
+                repaymentMonths - 1,
+                rate,
+                firstDate,
+                result
+            )
         } else {
             //等额本息
-            calculateEqualPrincipalAndInterestApart2(amount,months,advanceAmount,repaymentMonths-1,rate,firstDate,result)
+            calculateEqualPrincipalAndInterestApart2(
+                amount,
+                months,
+                advanceAmount,
+                repaymentMonths - 1,
+                rate,
+                firstDate,
+                result
+            )
         }
     }
     return result;
 }
-
-
 
 
 /*********************         月供不变 start      */
@@ -64,7 +96,7 @@ fun calculateEqualPrincipalAndInterestApart(
     rate: Double,
     firstDate: String,
     result: LoanResultAdvance
-){
+) {
     val monthRate = rate / (100 * 12) //月利率
     val preLoan = principal * monthRate * Math.pow(1 + monthRate, months.toDouble()) / (Math.pow(
         1 + monthRate, months.toDouble()
@@ -99,17 +131,17 @@ fun calculateEqualPrincipalAndInterestApart(
     val saveInterest = totalMoney - aheadTotalMoney - leftTotalMoney - payTotal
     result.loanAmount = principal
     result.totalAmount = totalMoney
-    result.advanceAmount = leftTotalMoney
+    result.surplusAmount = leftTotalMoney
     result.interestTotal = interest
     result.advanceInterestTotal = leftInterest
     result.repaymentMonth = preLoan
     result.advanceRepaymentMonth = newPreLoan
-    result.reduceMonths = months-leftMonth - payTimes
+    result.reduceMonths = months - leftMonth - payTimes
     result.reduceInterest = saveInterest
     result.repaidTotal = payTotal
     result.repaidAmount = payLoan
     result.repaidInterest = payInterest
-    result.advanceTotalMoney = aheadTotalMoney
+    result.surplusTotalAmount = aheadTotalMoney
 }
 
 /**
@@ -149,21 +181,20 @@ fun calculateEqualPrincipalApart(
     val saveInterest = totalMoney - payTotal - aheadTotalMoney - leftTotalMoney
     result.loanAmount = principal
     result.totalAmount = totalMoney
-    result.advanceAmount = leftTotalMoney
+    result.surplusAmount = leftTotalMoney
     result.interestTotal = interest
     result.advanceInterestTotal = leftInterest
     result.repaymentFirstMonth = firstMonth
     result.advanceRepaymentFirstMonth = newFirstMonth
-    result.reduceMonths = months-leftMonth - payTimes
+    result.reduceMonths = months - leftMonth - payTimes
     result.reduceInterest = saveInterest
     result.repaidTotal = payTotal
     result.repaidAmount = payLoan
     result.repaidInterest = payInterest
-    result.advanceTotalMoney = aheadTotalMoney
+    result.surplusTotalAmount = aheadTotalMoney
 }
 
 /*********************         月供不变 	 end     ***********************/
-
 
 
 /*********************         期限不变		 start     */
@@ -184,7 +215,7 @@ fun calculateEqualPrincipalAndInterestApart2(
     rate: Double,
     firstDate: String,
     result: LoanResultAdvance
-){
+) {
     val monthRate = rate / (100 * 12) //月利率
     val preLoan = principal * monthRate * Math.pow(1 + monthRate, months.toDouble()) / (Math.pow(
         1 + monthRate, months.toDouble()
@@ -212,10 +243,15 @@ fun calculateEqualPrincipalAndInterestApart2(
     val leftTotalMoney = newPreLoan * (months - payTimes)
     val leftInterest = leftTotalMoney - (leftLoan - aheadPrincipal)
     val saveInterest = totalMoney - payTotal - aheadTotalMoney - leftTotalMoney
-    result.loanAmount = principal
     result.totalAmount = totalMoney
-    result.advanceAmount = leftTotalMoney
+    result.loanAmount = principal
     result.interestTotal = interest
+
+
+
+
+    result.surplusAmount = leftTotalMoney
+
     result.advanceInterestTotal = leftInterest
     result.repaymentMonth = preLoan
     result.advanceRepaymentMonth = newPreLoan
@@ -223,7 +259,7 @@ fun calculateEqualPrincipalAndInterestApart2(
     result.repaidTotal = payTotal;
     result.repaidAmount = payLoan
     result.repaidInterest = payInterest
-    result.advanceTotalMoney = aheadTotalMoney
+    result.surplusTotalAmount = aheadTotalMoney
 }
 
 /**
@@ -243,7 +279,7 @@ fun calculateEqualPrincipalApart2(
     rate: Double,
     firstDate: String,
     result: LoanResultAdvance
-){
+) {
     val monthRate = rate / (100 * 12) //月利率
     val prePrincipal = principal / months //每月还款本金
     val firstMonth = prePrincipal + principal * monthRate //第一个月还款金额
@@ -265,16 +301,16 @@ fun calculateEqualPrincipalApart2(
     val saveInterest = totalMoney - payTotal - aheadTotalMoney - leftTotalMoney
     result.loanAmount = principal
     result.totalAmount = totalMoney
-    result.advanceAmount = leftTotalMoney
+    result.surplusAmount = leftTotalMoney
     result.interestTotal = interest
     result.advanceInterestTotal = leftInterest
     result.repaymentFirstMonth = firstMonth
     result.advanceRepaymentFirstMonth = newFirstMonth
-    result.reduceMonths = months-leftMonth - payTimes
+    result.reduceMonths = months - leftMonth - payTimes
     result.reduceInterest = saveInterest
     result.repaidTotal = payTotal
     result.repaidAmount = payLoan
     result.repaidInterest = payInterest
-    result.advanceTotalMoney = aheadTotalMoney
+    result.surplusTotalAmount = aheadTotalMoney
 }
 /*********************         期限不变		 end    **********************/
