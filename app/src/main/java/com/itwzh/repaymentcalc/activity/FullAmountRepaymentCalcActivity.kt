@@ -88,8 +88,8 @@ class FullAmountRepaymentCalcActivity : AppCompatActivity(), View.OnClickListene
             }.setOnCancel("取消") {}.build().show()
     }
 
-    private fun resetCheckBox(isEp: Boolean) {
-        this.isEP = isEP
+    private fun resetCheckBox(newEp: Boolean) {
+        this.isEP = newEp
         mBinding.checkboxEPAI.isChecked = !isEP
         mBinding.checkboxEP.isChecked = isEP
     }

@@ -61,11 +61,11 @@ fun calcEPAILoan(
     result.haveInterestAmount = payTotal - payLoan
     result.surplusAmount = principal - payLoan
     val aheadInterest = result.surplusAmount * monthRate
-    val aheadRepaymentAmount = aheadInterest +result.surplusAmount  // 一次还款额
+    val aheadRepaymentAmount = aheadInterest + result.surplusAmount  // 一次还款额
     result.aheadRepaymentAmount = aheadRepaymentAmount
     result.aheadInterest = aheadInterest
     //节省利息
-    val saveInterest = interest -     result.haveInterestAmount - aheadInterest
+    val saveInterest = interest - result.haveInterestAmount - aheadInterest
     result.saveInterest = saveInterest
 }
 
@@ -77,7 +77,7 @@ fun calcEPLoan(
     principal: Double,
     months: Int,
     rate: Double,
-    repaymentNormalMonth: Int,
+    payTimes: Int,
     result: LoanResultFullAmount
 ) {
     val monthRate = rate / (100 * 12) //月利率
@@ -91,14 +91,24 @@ fun calcEPLoan(
     result.repaymentFirstMonth = firstMonth
     result.totalAmount = totalMoney
 
-    //已还本金
-    result.haveRepaymentAmount = prePrincipal * repaymentNormalMonth
-    //已还利息
 
+    //已还本金
+    result.haveRepaymentAmount = prePrincipal * payTimes
+    //已还利息
+    val payInterest =
+        (principal * payTimes - prePrincipal * (payTimes - 1) * payTimes / 2) * monthRate //已还利息
+    result.haveInterestAmount = payInterest
+    //已还总额
+    result.haveTotalAmount = result.haveRepaymentAmount + result.haveInterestAmount
     //剩余本金
     val surplusAmount = principal - result.haveRepaymentAmount
-
-
+    result.surplusAmount = surplusAmount
+    //一次性还款利息
+    val aheadInterest = result.surplusAmount * monthRate
+    result.aheadInterest = aheadInterest
+    //一次性还款总额
+    result.aheadRepaymentAmount = result.surplusAmount+result.aheadInterest
+    result.saveInterest = result.interestAmount - payInterest - result.aheadInterest
 }
 
 

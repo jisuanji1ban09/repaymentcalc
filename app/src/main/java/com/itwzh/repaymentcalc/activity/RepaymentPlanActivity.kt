@@ -86,6 +86,9 @@ class RepaymentPlanActivity : AppCompatActivity() {
                 date = repaymentFirstMonth,
                 isEP = isEP
             )
+            for (issue in 0..repaymentPlan.size-1){
+//                Log.i("kfzx-wzh",repaymentPlan.get(issue).toString())
+            }
             it.onNext(repaymentPlan)
         }
         c.subscribeOn(Schedulers.io())
