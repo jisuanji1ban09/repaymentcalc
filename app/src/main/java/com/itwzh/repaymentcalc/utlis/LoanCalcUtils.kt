@@ -5,6 +5,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.itwzh.repaymentcalc.model.LoanResult
 import com.itwzh.repaymentcalc.model.LoanResultAdvance
+import com.itwzh.repaymentcalc.model.RepaymentPlan
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -16,12 +17,20 @@ fun getLoanResult(loanAmount: Double, loanTime: Int, loanRate: Double, isEP: Boo
     result.isEP = isEP
     result.repaymentLastDate = getRepaymentDate(date,loanTime)
     if (isEP) result.repaymentType = "等额本金" else result.repaymentType = "等额本息"
+    val repaymentPlan = getRepaymentPlan(
+        amount = loanAmount,
+        months = loanTime,
+        rate = loanRate,
+        date = date,
+        isEP = isEP
+    )
     if (!isEP) calculateEqualPrincipalAndInterest(
         loanAmount,
         loanTime,
         loanRate,
-        result
-    ) else calculateEqualPrincipal(loanAmount, loanTime, loanRate, result)
+        result,
+        repaymentPlan
+    ) else calculateEqualPrincipal(loanAmount, loanTime, loanRate, result,repaymentPlan)
     return result;
 }
 
@@ -39,8 +48,17 @@ fun calculateEqualPrincipalAndInterest(
     principal: Double,
     months: Int,
     loanRate: Double,
-    result: LoanResult
+    result: LoanResult,
+    repaymentPlan: List<RepaymentPlan>
 ): LoanResult {
+
+    var insetTotal = 0.0
+
+    for (issue in 0..repaymentPlan.size-1){
+        insetTotal += repaymentPlan.get(issue).repaymentInterest
+    }
+
+
     val monthRate: Double = loanRate / (100 * 12) //月利率
     val preLoan: Double =
         principal * monthRate * Math.pow(
@@ -48,11 +66,10 @@ fun calculateEqualPrincipalAndInterest(
             months.toDouble()
         ) / (Math.pow(1 + monthRate, months.toDouble()) - 1) //每月还款金额
 
-    val totalMoney: Double = preLoan * months //还款总额
-    val interest: Double = totalMoney - principal //还款总利息
+    val totalMoney: Double = principal + insetTotal //还款总额
 
     result.totalAmount = totalMoney
-    result.interestAmount = interest
+    result.interestAmount = insetTotal
     result.repaymentMonth = preLoan
     return result
 }
@@ -70,16 +87,22 @@ fun calculateEqualPrincipal(
     principal: Double,
     months: Int,
     rate: Double,
-    result: LoanResult
+    result: LoanResult,
+    repaymentPlan: List<RepaymentPlan>
 ): LoanResult {
     val monthRate = rate / (100 * 12) //月利率
     val prePrincipal = principal / months //每月还款本金
     val firstMonth = prePrincipal + principal * monthRate //第一个月还款金额
-    val decreaseMonth = prePrincipal * monthRate //每月利息递减
-    val interest = (months + 1) * principal * monthRate / 2 //还款总利息
-    val totalMoney = principal + interest //还款总额
+    var insetTotal = 0.0
 
-    result.interestAmount = interest
+    for (issue in 0..repaymentPlan.size-1){
+        insetTotal += repaymentPlan.get(issue).repaymentInterest
+    }
+    val totalMoney = principal + insetTotal //还款总额
+
+
+
+    result.interestAmount = insetTotal
     result.repaymentFirstMonth = firstMonth
     result.totalAmount = totalMoney
     return result

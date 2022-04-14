@@ -1,6 +1,8 @@
 package com.itwzh.repaymentcalc.utlis
 
+import android.util.Log
 import com.itwzh.repaymentcalc.model.LoanResultFullAmount
+import com.itwzh.repaymentcalc.model.RepaymentPlan
 
 fun getLoanResultFullAmount(
     amount: Double,
@@ -19,10 +21,11 @@ fun getLoanResultFullAmount(
     val repaymentNormalMonth = getRepaymentSubMonth(firstDate, advanceDate)
     result.repaymentNormalMonth = repaymentNormalMonth;
     if (isEP) result.repaymentType = "等额本金" else result.repaymentType = "等额本息"
+    val repaymentPlan = getRepaymentPlan(amount, months, rate, firstDate, isEP)
     if (isEP) {
-        calcEPLoan(amount, months, rate, repaymentNormalMonth, result)
+        calcEPLoan(amount, months, rate, repaymentNormalMonth, result,repaymentPlan,firstDate)
     } else {
-        calcEPAILoan(amount, months, rate, repaymentNormalMonth, result)
+        calcEPAILoan(amount, months, rate, repaymentNormalMonth, result,repaymentPlan,firstDate)
     }
     return result
 }
@@ -35,8 +38,24 @@ fun calcEPAILoan(
     months: Int,
     rate: Double,
     payTimes: Int,
-    result: LoanResultFullAmount
+    result: LoanResultFullAmount,
+    repaymentPlan: List<RepaymentPlan>,
+    date:String,
 ) {
+
+    var totalInsert = 0.0
+    var haveRepaymentAmount = 0.0
+    var payInterest = 0.0
+    for (issue in 0..repaymentPlan.size-1){
+        totalInsert += repaymentPlan.get(issue).repaymentInterest
+        if (issue<payTimes){
+            haveRepaymentAmount += repaymentPlan.get(issue).repaymentPrincipal
+            payInterest += repaymentPlan.get(issue).repaymentInterest
+            Log.i("kfzx-wzh","第{$issue}期：日期是{${repaymentPlan.get(issue).repaymentDate}}，已还本金{$haveRepaymentAmount}元，已还利息{$payInterest}元")
+        }
+    }
+
+
     val monthRate: Double = rate / (100 * 12) //月利率
     val preLoan: Double =
         principal * monthRate * Math.pow(
@@ -44,28 +63,28 @@ fun calcEPAILoan(
             months.toDouble()
         ) / (Math.pow(1 + monthRate, months.toDouble()) - 1) //每月还款金额
 
-    val totalMoney: Double = preLoan * months //还款总额
-    val interest: Double = totalMoney - principal //还款总利息
-    val leftLoanBefore = principal * Math.pow(
-        1 + monthRate,
-        payTimes.toDouble()
-    ) - preLoan * (Math.pow(1 + monthRate, payTimes.toDouble()) - 1) / monthRate //提前还款前欠银行的钱
 
-    result.totalAmount = totalMoney
-    result.interestAmount = interest
+
+    //总还款额
+    result.totalAmount = principal+totalInsert
+    //利息总额
+    result.interestAmount = totalInsert
+    //月还款
     result.repaymentMonth = preLoan
-    val payLoan = principal - leftLoanBefore //已还本金
-    result.haveRepaymentAmount = payLoan
-    val payTotal = preLoan * payTimes //已还总金额
-    result.haveTotalAmount = payTotal
-    result.haveInterestAmount = payTotal - payLoan
-    result.surplusAmount = principal - payLoan
-    val aheadInterest = result.surplusAmount * monthRate
-    val aheadRepaymentAmount = aheadInterest + result.surplusAmount  // 一次还款额
-    result.aheadRepaymentAmount = aheadRepaymentAmount
-    result.aheadInterest = aheadInterest
+    //已还本金
+    result.haveRepaymentAmount = haveRepaymentAmount
+    //已还利息
+    result.haveInterestAmount = payInterest
+    //已还总额
+    result.haveTotalAmount = result.haveRepaymentAmount + result.haveInterestAmount
+    //剩余本金
+    result.surplusAmount = result.loanAmount - result.haveRepaymentAmount
+    //一次性还款利息
+    result.aheadInterest = result.surplusAmount * monthRate
+    //一次性还款总额
+    result.aheadRepaymentAmount = result.aheadInterest + result.surplusAmount
     //节省利息
-    val saveInterest = interest - result.haveInterestAmount - aheadInterest
+    val saveInterest = result.interestAmount - result.haveInterestAmount - result.aheadInterest
     result.saveInterest = saveInterest
 }
 
@@ -78,25 +97,36 @@ fun calcEPLoan(
     months: Int,
     rate: Double,
     payTimes: Int,
-    result: LoanResultFullAmount
+    result: LoanResultFullAmount,
+    repaymentPlan: List<RepaymentPlan>,
+    date:String,
 ) {
+
+    var totalInsert = 0.0
+    var haveRepaymentAmount = 0.0
+    var payInterest = 0.0
+    for (issue in 0..repaymentPlan.size-1){
+        totalInsert += repaymentPlan.get(issue).repaymentInterest
+        if (issue<payTimes){
+            haveRepaymentAmount += repaymentPlan.get(issue).repaymentPrincipal
+            payInterest += repaymentPlan.get(issue).repaymentInterest
+            Log.i("kfzx-wzh","第{$issue}期：日期是{${repaymentPlan.get(issue).repaymentDate}}，已还本金{$haveRepaymentAmount}元，已还利息{$payInterest}元")
+        }
+    }
+
     val monthRate = rate / (100 * 12) //月利率
     val prePrincipal = principal / months //每月还款本金
     val firstMonth = prePrincipal + principal * monthRate //第一个月还款金额
-    val decreaseMonth = prePrincipal * monthRate //每月利息递减
-    val interest = (months + 1) * principal * monthRate / 2 //还款总利息
-    val totalMoney = principal + interest //还款总额
+    val totalMoney = principal + totalInsert //还款总额
 
-    result.interestAmount = interest
+    result.interestAmount = totalInsert
     result.repaymentFirstMonth = firstMonth
     result.totalAmount = totalMoney
 
 
     //已还本金
-    result.haveRepaymentAmount = prePrincipal * payTimes
+    result.haveRepaymentAmount = haveRepaymentAmount
     //已还利息
-    val payInterest =
-        (principal * payTimes - prePrincipal * (payTimes - 1) * payTimes / 2) * monthRate //已还利息
     result.haveInterestAmount = payInterest
     //已还总额
     result.haveTotalAmount = result.haveRepaymentAmount + result.haveInterestAmount
