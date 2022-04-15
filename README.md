@@ -8,3 +8,7 @@
 您如果遇到问题或者有新功能的建议可以发邮件到1007616352@qq.com，我会经常看的，谢谢。
 可以增加功能，即随着LPR的不断改变和定价基准的改变进行分阶段计算。
 签名信息为app目录下repayment文件 Password:123456 Alias:123456 Password:123456
+
+<center>扫码下载</center>
+
+![二维码.jpeg](http://www.itwzh.com/upload/2022/04/repaymentCalcDownload-73d2489b302d46739c2fc9df2c2ee758.png)
