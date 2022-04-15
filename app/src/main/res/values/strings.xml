@@ -50,4 +50,5 @@
     <string name="haveRepaymentAmount">已还本金</string>
     <string name="haveTotalAmount">已还总额</string>
     <string name="repaymentNormalMonth">已还期数</string>
+    <string name="reduceMonths">减少月份</string>
 </resources>

@@ -54,7 +54,23 @@ class FullAmountRepaymentCalcActivity : AppCompatActivity(), View.OnClickListene
             ToastUtils.toast(this, "请选择第一次还款日期")
             return
         }
+
+        loanTime =
+            if (TextUtils.isEmpty(mBinding.editLoanTime.text.toString())) 0 else mBinding.editLoanTime.text.toString()
+                .toInt()
+        if (loanTime == 0) {
+            ToastUtils.toast(this, "请输入贷款时长")
+            return
+        }
+        firstDate =
+            if (TextUtils.isEmpty(mBinding.tvRepaymentDateDesc.text.toString())) "" else mBinding.tvRepaymentDateDesc.text.toString()
+        val endMillisecond = dateParse(getEndDate(firstDate, loanTime))
+        if (System.currentTimeMillis()>endMillisecond){
+            ToastUtils.toast(this, "贷款已结清")
+            return
+        }
         val minTime = getNextMonth(firstRepayment)
+        val maxTime = getAdvanceMaxMonth(firstDate = firstRepayment, loanTime - 1)
         CardDatePickerDialog.builder(this)
             .setTitle("选择日期")
             .showBackNow(false)
@@ -85,6 +101,7 @@ class FullAmountRepaymentCalcActivity : AppCompatActivity(), View.OnClickListene
             .setOnChoose("确定") { millisecond ->
                 firstRepayment = millisecond
                 mBinding.tvRepaymentDateDesc.text = dateFormat(millisecond)
+                mBinding.tvAdvanceRepaymentDateDesc.text = ""
             }.setOnCancel("取消") {}.build().show()
     }
 
@@ -141,7 +158,10 @@ class FullAmountRepaymentCalcActivity : AppCompatActivity(), View.OnClickListene
             ToastUtils.toast(this, "贷款时长错误")
             return false
         }
-
+        if (loanTime<2){
+            ToastUtils.toast(this, "请使用贷款计算器计算")
+            return false
+        }
         if (loanRate == 0.0) {
             ToastUtils.toast(this, "贷款利率错误")
             return false
@@ -152,6 +172,15 @@ class FullAmountRepaymentCalcActivity : AppCompatActivity(), View.OnClickListene
         }
         if (TextUtils.isEmpty(advanceDate)) {
             ToastUtils.toast(this, "请选择提前约定还款日期")
+            return false
+        }
+        if (advanceRepayment < firstRepayment) {
+            ToastUtils.toast(this, "提前还款日期错误")
+            return false
+        }
+        val endRepaymentDay = dateParse(getEndDate(firstDate, months = loanTime - 1))
+        if (advanceRepayment > endRepaymentDay) {
+            ToastUtils.toast(this, "提前还款日期错误")
             return false
         }
         return true

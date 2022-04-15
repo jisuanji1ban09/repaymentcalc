@@ -77,7 +77,7 @@ fun getNextMonth(millisecond:Long):Long{
     }else{
         val nowDay = dateFormat(System.currentTimeMillis()).substring(8, 10).toInt()
         val firstDay = dateFormat(millisecond).substring(8, 10).toInt()
-        if (nowDay>firstDay){
+        if (nowDay>=firstDay){
             val nextDay = getEndDate(dateFormat(System.currentTimeMillis()), 1)
             val endDay = nextDay.substring(0,8)+"01日"
             return dateParse(endDay)
@@ -93,4 +93,8 @@ fun getMinMonthByChoose():Long{
 
 fun getMaxMonthByChoose():Long{
     return dateParse(getEndDate(dateFormat(System.currentTimeMillis()),1200))
+}
+
+fun getAdvanceMaxMonth(firstDate:Long,months: Int):Long{
+    return dateParse(getEndDate(dateFormat(firstDate),months))
 }

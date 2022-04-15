@@ -10,6 +10,7 @@ import com.itwzh.repaymentcalc.R
 import com.itwzh.repaymentcalc.databinding.ActivityAdvanceRepaymentCalcBinding
 import com.itwzh.repaymentcalc.utlis.*
 import com.loper7.date_time_picker.dialog.CardDatePickerDialog
+import kotlin.math.min
 
 class AdvanceRepaymentCalcActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -77,7 +78,22 @@ class AdvanceRepaymentCalcActivity : AppCompatActivity(), View.OnClickListener {
             ToastUtils.toast(this, "请选择第一次还款日期")
             return
         }
+        loanTime =
+            if (TextUtils.isEmpty(mBinding.editLoanTime.text.toString())) 0 else mBinding.editLoanTime.text.toString()
+                .toInt()
+        if (loanTime == 0) {
+            ToastUtils.toast(this, "请输入贷款时长")
+            return
+        }
+        firstDate =
+            if (TextUtils.isEmpty(mBinding.tvRepaymentDateDesc.text.toString())) "" else mBinding.tvRepaymentDateDesc.text.toString()
+        val endMillisecond = dateParse(getEndDate(firstDate, loanTime))
+        if (System.currentTimeMillis()>endMillisecond){
+            ToastUtils.toast(this, "贷款已结清")
+            return
+        }
         val minTime = getNextMonth(firstRepayment)
+        val maxTime = getAdvanceMaxMonth(firstDate = firstRepayment, loanTime - 1)
         CardDatePickerDialog.builder(this)
             .setTitle("选择日期")
             .showBackNow(false)
@@ -89,7 +105,8 @@ class AdvanceRepaymentCalcActivity : AppCompatActivity(), View.OnClickListener {
             .setLabelText("年", "月")
             .setOnChoose("确定") { millisecond ->
                 advanceRepayment = millisecond
-                mBinding.tvAdvanceRepaymentDateDesc.text = advanceDateFormat(millisecond, dateFormat(firstRepayment))
+                mBinding.tvAdvanceRepaymentDateDesc.text =
+                    advanceDateFormat(millisecond, dateFormat(firstRepayment))
             }.setOnCancel("取消") {}.build().show()
 
     }
@@ -110,21 +127,22 @@ class AdvanceRepaymentCalcActivity : AppCompatActivity(), View.OnClickListener {
             .setOnChoose("确定") { millisecond ->
                 firstRepayment = millisecond
                 mBinding.tvRepaymentDateDesc.text = dateFormat(millisecond)
+                mBinding.tvAdvanceRepaymentDateDesc.text = ""
             }.setOnCancel("取消") {}.build().show()
     }
 
     private fun showRepaymentPlan() {
-        hideSoftKeyboard(this,mBinding.btnCalc)
-        if (getCalcParam()){
+        hideSoftKeyboard(this, mBinding.btnCalc)
+        if (getCalcParam()) {
             val intent: Intent = Intent(this, AdvanceRepaymentPlanActivity().javaClass)
-            intent.putExtra(CommonValues.amount,loanAmount)
-            intent.putExtra(CommonValues.rate,loanRate)
-            intent.putExtra(CommonValues.months,loanTime)
-            intent.putExtra(CommonValues.isEP,isEP)
-            intent.putExtra(CommonValues.date,firstDate)
-            intent.putExtra(CommonValues.repaymentAmount,repaymentAmount)
-            intent.putExtra(CommonValues.isAdvance,isAdvanceEP)
-            intent.putExtra(CommonValues.repaymentDate,advanceDate)
+            intent.putExtra(CommonValues.amount, loanAmount)
+            intent.putExtra(CommonValues.rate, loanRate)
+            intent.putExtra(CommonValues.months, loanTime)
+            intent.putExtra(CommonValues.isEP, isEP)
+            intent.putExtra(CommonValues.date, firstDate)
+            intent.putExtra(CommonValues.repaymentAmount, repaymentAmount)
+            intent.putExtra(CommonValues.isAdvance, isAdvanceEP)
+            intent.putExtra(CommonValues.repaymentDate, advanceDate)
             startActivity(intent)
         }
     }
@@ -145,11 +163,18 @@ class AdvanceRepaymentCalcActivity : AppCompatActivity(), View.OnClickListener {
             if (loanResult.isAdvance) {
                 mBinding.tvLoanTimes.text = "原贷款期限"
                 mBinding.clLoanTimesNew.visibility = View.VISIBLE
+                mBinding.lineLoanTimesNew.visibility = View.VISIBLE
                 mBinding.tvLastDate.text = "原最后还款日期"
+                mBinding.clReduceMonths.visibility = View.VISIBLE
+                mBinding.lineReduceMonths.visibility=View.VISIBLE
             } else {
                 mBinding.tvLoanTimes.text = "贷款期限"
                 mBinding.clLoanTimesNew.visibility = View.GONE
+                mBinding.lineLoanTimesNew.visibility = View.GONE
                 mBinding.tvLastDate.text = "最后还款日期"
+
+                mBinding.clReduceMonths.visibility = View.GONE
+                mBinding.lineReduceMonths.visibility=View.GONE
 
             }
             if (loanResult.isEP) {
@@ -202,7 +227,10 @@ class AdvanceRepaymentCalcActivity : AppCompatActivity(), View.OnClickListener {
             ToastUtils.toast(this, "贷款时长错误")
             return false
         }
-
+        if (loanTime<2){
+            ToastUtils.toast(this, "请使用贷款计算器计算")
+            return false
+        }
         if (loanRate == 0.0) {
             ToastUtils.toast(this, "贷款利率错误")
             return false
@@ -217,6 +245,15 @@ class AdvanceRepaymentCalcActivity : AppCompatActivity(), View.OnClickListener {
         }
         if (TextUtils.isEmpty(advanceDate)) {
             ToastUtils.toast(this, "请选择提前约定还款日期")
+            return false
+        }
+        if (advanceRepayment < firstRepayment) {
+            ToastUtils.toast(this, "提前还款日期错误")
+            return false
+        }
+        val endRepaymentDay = dateParse(getEndDate(firstDate, months = loanTime - 1))
+        if (advanceRepayment > endRepaymentDay) {
+            ToastUtils.toast(this, "提前还款日期错误")
             return false
         }
         return true

@@ -828,6 +828,53 @@
                             app:layout_constraintStart_toEndOf="@id/tvRepaidAmount"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_1dp"
+                        android:background="@color/color_FFD5D5D5" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_40dp">
+
+                        <TextView
+                            android:id="@+id/tvSurplusAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/surplusAmount"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:id="@+id/tvSurplusAmountUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/unitYuan"
+                            android:textColor="@color/color_FF666666"
+                            android:textSize="@dimen/sw_14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/sw_5dp"
+                            android:layout_marginRight="@dimen/sw_5dp"
+                            android:gravity="right"
+                            android:textColor="@color/color_FF333333"
+                            android:textSize="@dimen/sw_14sp"
+                            formatDoubleToText="@{result.surplusAmount}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/tvSurplusAmountUnit"
+                            app:layout_constraintStart_toEndOf="@id/tvSurplusAmount"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -876,6 +923,11 @@
                             app:layout_constraintStart_toEndOf="@id/tvRepaidInterest"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sw_1dp"
+                        android:background="@color/color_FFD5D5D5" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -972,53 +1024,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/sw_1dp"
-                        android:background="@color/color_FFD5D5D5" />
 
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/sw_40dp">
-
-                        <TextView
-                            android:id="@+id/tvSurplusAmount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/surplusAmount"
-                            android:textColor="@color/color_FF333333"
-                            android:textSize="@dimen/sw_14sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-
-                        <TextView
-                            android:id="@+id/tvSurplusAmountUnit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/unitYuan"
-                            android:textColor="@color/color_FF666666"
-                            android:textSize="@dimen/sw_14sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/sw_5dp"
-                            android:layout_marginRight="@dimen/sw_5dp"
-                            android:gravity="right"
-                            android:textColor="@color/color_FF333333"
-                            android:textSize="@dimen/sw_14sp"
-                            formatDoubleToText="@{result.surplusAmount}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/tvSurplusAmountUnit"
-                            app:layout_constraintStart_toEndOf="@id/tvSurplusAmount"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -1069,6 +1075,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
+                        android:id="@+id/lineLoanTimesNew"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/sw_1dp"
                         android:background="@color/color_FFD5D5D5" />
@@ -1260,6 +1267,7 @@
                         android:background="@color/color_FFD5D5D5" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clReduceMonths"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/sw_40dp">
 
@@ -1267,7 +1275,7 @@
                             android:id="@+id/tvReduceMonths"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/repaidInterest"
+                            android:text="@string/reduceMonths"
                             android:textColor="@color/color_FF333333"
                             android:textSize="@dimen/sw_14sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -1279,7 +1287,7 @@
                             android:id="@+id/tvReduceMonthsUnit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/unitYuan"
+                            android:text="@string/month"
                             android:textColor="@color/color_FF666666"
                             android:textSize="@dimen/sw_14sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -1302,6 +1310,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
+                        android:id="@+id/lineReduceMonths"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/sw_1dp"
                         android:background="@color/color_FFD5D5D5" />
