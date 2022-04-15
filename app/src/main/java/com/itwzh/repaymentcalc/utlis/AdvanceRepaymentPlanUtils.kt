@@ -2,6 +2,7 @@ package com.itwzh.repaymentcalc.utlis
 
 import android.util.Log
 import com.itwzh.repaymentcalc.model.RepaymentPlan
+import java.math.BigDecimal
 
 fun getAdvanceRepaymentPlan(
     amount: Double,//贷款金额
@@ -24,7 +25,7 @@ fun getAdvanceRepaymentPlan(
         plan.issueNumber = "第${issue}期"
         var excessInterest = if (issue == 1) 0.0 else mData.get(issue - 2).interestNotIncluded
         if (isEP) { //等额本金
-            val amountEP = getAmountEP(amount, months, rateOfMonth, issue,excessInterest)
+            val amountEP = getAmountEP(amount, months, rateOfMonth, issue, excessInterest)
             plan.repaymentAmount = amountEP.get("repaymentAmount")!!
             plan.repaymentPrincipal = amountEP.get("repaymentPrincipal")!!
             plan.repaymentInterest = amountEP.get("repaymentInterest")!!
@@ -46,82 +47,134 @@ fun getAdvanceRepaymentPlan(
         }
         mData.add(plan)
     }
-    val naturalSP = mData.last().surplusPrincipal - repaymentAmount;
     if (isAdvance) { //减少还款金额
-        val surplusIssue = months - normalEndMonth
-        for (issue in naturalMonth..months) {
-            var plan = RepaymentPlan()
-            plan.repaymentDate = getRepaymentDate(firstDate, issue)
-            plan.issueNumber = "第${issue}期"
-            var excessInterest = if (issue == 1) 0.0 else mData.get(issue - 2).interestNotIncluded
-            if (isEP) { //等额本金
-                val amountEP =
-                    getAmountEP(naturalSP, surplusIssue, rateOfMonth, issue - normalEndMonth,excessInterest)
-                if (issue == naturalMonth) {
-                    plan.repaymentAmount = amountEP.get("repaymentAmount")!! + repaymentAmount
-                    plan.repaymentPrincipal = amountEP.get("repaymentPrincipal")!! + repaymentAmount
-                } else {
-                    plan.repaymentAmount = amountEP.get("repaymentAmount")!!
-                    plan.repaymentPrincipal = amountEP.get("repaymentPrincipal")!!
-                }
-                plan.surplusPrincipal = amountEP.get("surplusPrincipal")!!
-                plan.repaymentInterest = amountEP.get("repaymentInterest")!!
-                plan.interestNotIncluded = amountEP.get("interestNotIncluded")!!
-            } else { //等额本息
-                val amountEPAI = getAmountEPAI(
-                    naturalSP,
-                    surplusIssue,
-                    rateOfMonth,
-                    if (mData.size > naturalMonth - 1) mData.last().surplusPrincipal else naturalSP,
-                    excessInterest
-                )
-                if (issue == naturalMonth) {
-                    plan.repaymentAmount = amountEPAI.get("repaymentAmount")!! + repaymentAmount
-                    plan.repaymentPrincipal =
-                        amountEPAI.get("repaymentPrincipal")!! + repaymentAmount
-                } else {
-                    plan.repaymentAmount = amountEPAI.get("repaymentAmount")!!
-                    plan.repaymentPrincipal = amountEPAI.get("repaymentPrincipal")!!
-                }
-                plan.repaymentInterest = amountEPAI.get("repaymentInterest")!!
-                plan.surplusPrincipal = amountEPAI.get("surplusPrincipal")!!
-                plan.interestNotIncluded = amountEPAI.get("interestNotIncluded")!!
-            }
-            mData.add(plan)
-        }
-    } else { // 提前结束
-        if (isEP) { //等额本金
-            //计算档期还款
+        val surplusIssue = months - normalEndMonth - 1
+        if (isEP) {//等额本金
+            //先计算提前还款当期的还款计划
+            //计算提前还款当期还款
             var plan = RepaymentPlan()
             plan.repaymentDate = getRepaymentDate(firstDate, naturalMonth)
             plan.issueNumber = "第${naturalMonth}期"
-            var excessInterest = if (naturalMonth == 1) 0.0 else mData.get(naturalMonth - 2).interestNotIncluded
-            val amountEP = getAmountEP(amount, months, rateOfMonth, naturalMonth,excessInterest)
+            var excessInterest =
+                if (naturalMonth == 1) 0.0 else mData.get(naturalMonth - 2).interestNotIncluded
+            val amountEP = getAmountEP(amount, months, rateOfMonth, naturalMonth, excessInterest)
             plan.repaymentAmount = amountEP.get("repaymentAmount")!! + repaymentAmount
-            plan.repaymentPrincipal = amountEP.get("repaymentPrincipal")!! +repaymentAmount
+            plan.repaymentPrincipal = amountEP.get("repaymentPrincipal")!! + repaymentAmount
             plan.repaymentInterest = amountEP.get("repaymentInterest")!!
-            plan.surplusPrincipal = amountEP.get("surplusPrincipal")!! -repaymentAmount
-            plan.interestNotIncluded = amountEP.get("interestNotIncluded")!! -repaymentAmount
+            plan.surplusPrincipal = amountEP.get("surplusPrincipal")!! - repaymentAmount
+            plan.interestNotIncluded = amountEP.get("interestNotIncluded")!!
             mData.add(plan)
+            //剩余的还款计划 比如还款当期是第15期，需要从16期重新计算
+            //剩余还款金额
+            val susurplusAmount = mData.last().surplusPrincipal
+
+            for (issue in naturalMonth + 1..months) {
+                var plan = RepaymentPlan()
+                plan.repaymentDate = getRepaymentDate(firstDate, issue)
+                plan.issueNumber = "第${issue}期"
+                var excessInterest =
+                    if (issue == 1) 0.0 else mData.get(issue - 2).interestNotIncluded
+
+                val amountEP =
+                    getAmountEP(
+                        susurplusAmount,
+                        surplusIssue,
+                        rateOfMonth,
+                        issue - naturalMonth,
+                        excessInterest
+                    )
+                plan.repaymentAmount = amountEP.get("repaymentAmount")!!
+                plan.repaymentPrincipal = amountEP.get("repaymentPrincipal")!!
+                plan.surplusPrincipal = amountEP.get("surplusPrincipal")!!
+                plan.repaymentInterest = amountEP.get("repaymentInterest")!!
+                plan.interestNotIncluded = amountEP.get("interestNotIncluded")!!
+                mData.add(plan)
+            }
+
+
+        } else {//等额本息
+            //先计算提前还款当期的还款计划
+            var plan = RepaymentPlan()
+            plan.repaymentDate = getRepaymentDate(firstDate, naturalMonth)
+            plan.issueNumber = "第${naturalMonth}期"
+            var excessInterest =
+                if (naturalMonth == 1) 0.0 else mData.get(naturalMonth - 2).interestNotIncluded
+            val amountEPAI = getAmountEPAI(
+                amount,
+                months,
+                rateOfMonth,
+                if (mData.size > 0) mData.last().surplusPrincipal else amount,
+                excessInterest
+            )
+            plan.repaymentAmount = amountEPAI.get("repaymentAmount")!! + repaymentAmount
+            plan.repaymentPrincipal = amountEPAI.get("repaymentPrincipal")!! + repaymentAmount
+            plan.repaymentInterest = amountEPAI.get("repaymentInterest")!!
+            plan.surplusPrincipal = amountEPAI.get("surplusPrincipal")!! - repaymentAmount
+            plan.interestNotIncluded = amountEPAI.get("interestNotIncluded")!!
+            mData.add(plan)
+
+            //剩余还款金额
+            val susurplusAmount = mData.last().surplusPrincipal
+            for (issue in naturalMonth + 1..months) {
+
+                var plan = RepaymentPlan()
+                plan.repaymentDate = getRepaymentDate(firstDate, issue)
+                plan.issueNumber = "第${issue}期"
+                var excessInterest =
+                    if (issue == 1) 0.0 else mData.get(issue - 2).interestNotIncluded
+                val amountEPAI = getAmountEPAI(
+                    susurplusAmount,
+                    surplusIssue,
+                    rateOfMonth,
+                    mData.last().surplusPrincipal,
+                    excessInterest
+                )
+
+                plan.repaymentAmount = amountEPAI.get("repaymentAmount")!!
+                plan.repaymentPrincipal = amountEPAI.get("repaymentPrincipal")!!
+                plan.repaymentInterest = amountEPAI.get("repaymentInterest")!!
+                plan.surplusPrincipal = amountEPAI.get("surplusPrincipal")!!
+                plan.interestNotIncluded = amountEPAI.get("interestNotIncluded")!!
+                mData.add(plan)
+            }
+
+        }
+    } else { // 提前结束
+        if (isEP) { //等额本金
+            //计算提前还款当期还款
+            var plan = RepaymentPlan()
+            plan.repaymentDate = getRepaymentDate(firstDate, naturalMonth)
+            plan.issueNumber = "第${naturalMonth}期"
+            var excessInterest =
+                if (naturalMonth == 1) 0.0 else mData.get(naturalMonth - 2).interestNotIncluded
+            val amountEP = getAmountEP(amount, months, rateOfMonth, naturalMonth, excessInterest)
+            plan.repaymentAmount = amountEP.get("repaymentAmount")!! + repaymentAmount
+            plan.repaymentPrincipal = amountEP.get("repaymentPrincipal")!! + repaymentAmount
+            plan.repaymentInterest = amountEP.get("repaymentInterest")!!
+            plan.surplusPrincipal = amountEP.get("surplusPrincipal")!! - repaymentAmount
+            plan.interestNotIncluded = amountEP.get("interestNotIncluded")!!
+            mData.add(plan)
+            //就算剩余待还金额
             var naturalS = mData.last().surplusPrincipal
-            val amountOfMonth = mData.last().repaymentPrincipal - repaymentAmount
-            val newIssue = months - (repaymentAmount / amountOfMonth).toInt()
+            //月还本金
+            val amountOfMonth =
+                getAmountOfMonth(principal = amount, months = months, loanRate = rate, isEP = isEP)
+            //计算最新还款时间
+            val newIssue = getNewAdvanceEpMonth(amountOfMonth, repaymentAmount, months)
             val startIssue = mData.size + 1
             for (issue in startIssue..newIssue) {
                 var plan = RepaymentPlan()
                 plan.repaymentDate = getRepaymentDate(firstDate, issue)
                 plan.issueNumber = "第${issue}期"
-                var excessInterest = if (issue == 1) 0.0 else mData.get(issue - 2).interestNotIncluded
-                val amountEP = getAmountEPAdvance(amountOfMonth, naturalS, rateOfMonth,excessInterest)
-                if (issue == naturalMonth) {
-                    plan.repaymentAmount = amountEP.get("repaymentAmount")!! + repaymentAmount
-                    plan.repaymentPrincipal = amountEP.get("repaymentPrincipal")!! + repaymentAmount
-                } else {
-                    plan.repaymentAmount = amountEP.get("repaymentAmount")!!
-                    plan.repaymentPrincipal = amountEP.get("repaymentPrincipal")!!
-                }
+                var excessInterest =
+                    if (issue == 1) 0.0 else mData.get(issue - 2).interestNotIncluded
+                val amountEP =
+                    getAmountEPAdvance(amountOfMonth, naturalS, rateOfMonth, excessInterest)
+                plan.repaymentAmount = amountEP.get("repaymentAmount")!!
+                plan.repaymentPrincipal = amountEP.get("repaymentPrincipal")!!
                 plan.surplusPrincipal = amountEP.get("surplusPrincipal")!!
                 plan.repaymentInterest = amountEP.get("repaymentInterest")!!
+                plan.interestNotIncluded = amountEP.get("interestNotIncluded")!!
                 mData.add(plan)
                 naturalS = mData.last().surplusPrincipal
             }
@@ -130,7 +183,8 @@ fun getAdvanceRepaymentPlan(
             var plan = RepaymentPlan()
             plan.repaymentDate = getRepaymentDate(firstDate, naturalMonth)
             plan.issueNumber = "第${naturalMonth}期"
-            var excessInterest = if (naturalMonth == 1) 0.0 else mData.get(naturalMonth - 2).interestNotIncluded
+            var excessInterest =
+                if (naturalMonth == 1) 0.0 else mData.get(naturalMonth - 2).interestNotIncluded
             val amountEPAI = getAmountEPAI(
                 amount,
                 months,
@@ -148,31 +202,32 @@ fun getAdvanceRepaymentPlan(
             //剩余还款额
             var naturalS = mData.last().surplusPrincipal
             // 每月还款金额
-            val amountOfMonth = mData.last().repaymentAmount-repaymentAmount
+            val amountOfMonth =
+                getAmountOfMonth(principal = amount, months = months, loanRate = rate, isEP = isEP)
 
-            val lastMonths = (Math.log(amountOfMonth/(amountOfMonth-naturalS*rateOfMonth))/Math.log(1+rateOfMonth)).toInt()
+            val lastMonths = getNewAdvanceNotEpMonth(
+                amountOfMonth = amountOfMonth,
+                naturalS = naturalS,
+                rateOfMonth = rateOfMonth
+            )
 
-            for (issue in naturalMonth+1..naturalMonth+lastMonths+1) {
+            for (issue in naturalMonth + 1..naturalMonth + lastMonths) {
                 var plan = RepaymentPlan()
                 plan.repaymentDate = getRepaymentDate(firstDate, issue)
                 plan.issueNumber = "第${issue}期"
-                var excessInterest = if (issue == 1) 0.0 else mData.get(issue - 2).interestNotIncluded
+                var excessInterest =
+                    if (issue == 1) 0.0 else mData.get(issue - 2).interestNotIncluded
                 val amountEPAI = getAmountEPAIAdvance(
                     rateOfMonth,
                     amountOfMonth,
                     naturalS,
                     excessInterest
                 )
-                if (issue == naturalMonth) {
-                    plan.repaymentAmount = amountEPAI.get("repaymentAmount")!! + repaymentAmount
-                    plan.repaymentPrincipal =
-                        amountEPAI.get("repaymentPrincipal")!! + repaymentAmount
-                } else {
-                    plan.repaymentAmount = amountEPAI.get("repaymentAmount")!!
-                    plan.repaymentPrincipal = amountEPAI.get("repaymentPrincipal")!!
-                }
+                plan.repaymentAmount = amountEPAI.get("repaymentAmount")!!
+                plan.repaymentPrincipal = amountEPAI.get("repaymentPrincipal")!!
                 plan.repaymentInterest = amountEPAI.get("repaymentInterest")!!
                 plan.surplusPrincipal = amountEPAI.get("surplusPrincipal")!!
+                plan.interestNotIncluded = amountEPAI.get("interestNotIncluded")!!
                 mData.add(plan)
                 naturalS = mData.last().surplusPrincipal
             }
@@ -181,7 +236,17 @@ fun getAdvanceRepaymentPlan(
     return mData;
 }
 
-private fun getNaturalRepaymentMonth(firstDate: String, repaymentDate: String): Int {
+fun getNewAdvanceNotEpMonth(amountOfMonth: Double, naturalS: Double, rateOfMonth: Double): Int {
+    val surplusMonths =
+        Math.log(amountOfMonth / (amountOfMonth - naturalS * rateOfMonth)) / Math.log(1 + rateOfMonth)
+    if (surplusMonths % 1 == 0.0) {
+        return surplusMonths.toInt()
+    } else {
+        return surplusMonths.toInt() + 1
+    }
+}
+
+fun getNaturalRepaymentMonth(firstDate: String, repaymentDate: String): Int {
     val firstYear = firstDate.substring(0, 4).toInt();
     val firstMonth = firstDate.substring(5, 7).toInt()
     val repaymentYear = repaymentDate.substring(0, 4).toInt()
@@ -194,22 +259,38 @@ fun getAmountEPAdvance(
     amountOfMonth: Double,
     preAmount: Double,
     rate: Double,
-    excessInterest:Double
+    excessInterest: Double
 ): Map<String, Double> {
     var map: HashMap<String, Double> = HashMap()
-    if (preAmount>amountOfMonth){
+    if (preAmount > amountOfMonth) {
         var surplusPrincipal = preAmount - amountOfMonth
         var repaymentInterest = preAmount * rate
-        map.put("repaymentAmount", amountOfMonth + repaymentInterest)
+        var interset = BigDecimal(repaymentInterest).setScale(2, BigDecimal.ROUND_DOWN).toDouble()
+        var interestNotIncluded = repaymentInterest - interset + excessInterest
+        //如果额外利息大于0.01 当期多还0.01
+        if (interestNotIncluded > 0.01) {
+            interset += 0.01;
+            interestNotIncluded -= 0.01
+        }
+        map.put("repaymentAmount", amountOfMonth + interset)
         map.put("repaymentPrincipal", amountOfMonth)
         map.put("repaymentInterest", repaymentInterest)
         map.put("surplusPrincipal", surplusPrincipal)
-    }else{
+        map.put("interestNotIncluded", interestNotIncluded)
+    } else {
         var repaymentInterest = preAmount * rate
-        map.put("repaymentAmount", preAmount + repaymentInterest)
+        var interset = BigDecimal(repaymentInterest).setScale(2, BigDecimal.ROUND_DOWN).toDouble()
+        var interestNotIncluded = repaymentInterest - interset + excessInterest
+        //如果额外利息大于0.01 当期多还0.01
+        if (interestNotIncluded > 0.01) {
+            interset += 0.01;
+            interestNotIncluded -= 0.01
+        }
+        map.put("repaymentAmount", preAmount + interset)
         map.put("repaymentPrincipal", preAmount)
         map.put("repaymentInterest", repaymentInterest)
         map.put("surplusPrincipal", 0.0)
+        map.put("interestNotIncluded", interestNotIncluded)
     }
     return map;
 }
@@ -218,23 +299,67 @@ fun getAmountEPAIAdvance(
     rate: Double,
     repaymentAmount: Double, //每月还款金额
     preAmount: Double,
-    excessInterest:Double
+    excessInterest: Double
 ): Map<String, Double> {
     var map: HashMap<String, Double> = HashMap()
     if (preAmount > repaymentAmount) {
         val repaymentInterest = preAmount * rate //利息
-        val repaymentPrincipal = repaymentAmount - repaymentInterest
+        var interset = BigDecimal(repaymentInterest).setScale(2, BigDecimal.ROUND_DOWN).toDouble()
+        var interestNotIncluded = repaymentInterest - interset + excessInterest
+        //如果额外利息大于0.01 当期多还0.01
+        if (interestNotIncluded > 0.01) {
+            interset += 0.01;
+            interestNotIncluded -= 0.01
+        }
+        val repaymentPrincipal = repaymentAmount - interset
         val surplusPrincipal = preAmount - repaymentPrincipal //剩余本金
-        map.put("repaymentAmount", repaymentPrincipal + repaymentInterest)
+        map.put("repaymentAmount", repaymentPrincipal + interset)
         map.put("repaymentPrincipal", repaymentPrincipal)
-        map.put("repaymentInterest", repaymentInterest)
+        map.put("repaymentInterest", interset)
         map.put("surplusPrincipal", surplusPrincipal)
+        map.put("interestNotIncluded", interestNotIncluded)
     } else {
         val repaymentInterest = preAmount * rate //利息
-        map.put("repaymentAmount", preAmount + repaymentInterest)
+        var interset = BigDecimal(repaymentInterest).setScale(2, BigDecimal.ROUND_DOWN).toDouble()
+        var interestNotIncluded = repaymentInterest - interset + excessInterest
+        //如果额外利息大于0.01 当期多还0.01
+        if (interestNotIncluded > 0.01) {
+            interset += 0.01;
+            interestNotIncluded -= 0.01
+        }
+        map.put("repaymentAmount", preAmount + interset)
         map.put("repaymentPrincipal", preAmount)
-        map.put("repaymentInterest", repaymentInterest)
+        map.put("repaymentInterest", interset)
         map.put("surplusPrincipal", 0.0)
+        map.put("interestNotIncluded", interestNotIncluded)
     }
     return map;
+}
+
+fun getAmountOfMonth(
+    principal: Double,
+    months: Int,
+    loanRate: Double,
+    isEP: Boolean,
+): Double {
+    if (isEP) {
+        return principal / months
+    } else {
+        val monthRate: Double = loanRate / (100 * 12) //月利率
+        val preLoan: Double =
+            principal * monthRate * Math.pow(
+                1 + monthRate,
+                months.toDouble()
+            ) / (Math.pow(1 + monthRate, months.toDouble()) - 1) //每月还款金额
+        return preLoan
+    }
+}
+
+fun getNewAdvanceEpMonth(amountOfMonth: Double, repaymentAmount: Double, months: Int): Int {
+    val reduceMonths = repaymentAmount / amountOfMonth;
+    if (reduceMonths % 1 == 0.0) {
+        return months - reduceMonths.toInt()
+    } else {
+        return months - reduceMonths.toInt() + 1
+    }
 }
