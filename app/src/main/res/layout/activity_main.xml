@@ -48,13 +48,14 @@
             android:layout_marginTop="@dimen/sw_5dp"
             android:layout_marginRight="@dimen/sw_5dp"
             android:onClick="@{(view)->listener.toFullRepaymentCalc(view)}"
-            android:text="全额还款"
+            android:text="提前全额还款"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnRepaymentCalc" />
         <Button
             android:id="@+id/repaymentPlan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginLeft="@dimen/sw_5dp"
             android:layout_marginTop="@dimen/sw_5dp"
             android:layout_marginRight="@dimen/sw_5dp"
